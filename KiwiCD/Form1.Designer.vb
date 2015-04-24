@@ -30,19 +30,23 @@ Partial Class Form1
         Me.TextBox4 = New System.Windows.Forms.TextBox()
         Me.TextBox3 = New System.Windows.Forms.TextBox()
         Me.Main = New System.Windows.Forms.Panel()
-        Me.Button6 = New System.Windows.Forms.Button()
-        Me.Button5 = New System.Windows.Forms.Button()
-        Me.Button4 = New System.Windows.Forms.Button()
+        Me.TitleButton = New System.Windows.Forms.Button()
+        Me.ArtistButton = New System.Windows.Forms.Button()
+        Me.GenreButton = New System.Windows.Forms.Button()
         Me.Label2 = New System.Windows.Forms.Label()
         Me.PictureBox2 = New System.Windows.Forms.PictureBox()
         Me.StatusStrip1 = New System.Windows.Forms.StatusStrip()
         Me.ToolStripStatusLabel2 = New System.Windows.Forms.ToolStripStatusLabel()
-        Me.ToolStripStatusLabel1 = New System.Windows.Forms.ToolStripStatusLabel()
         Me.ToolStripStatusLabel3 = New System.Windows.Forms.ToolStripStatusLabel()
+        Me.ToolStripStatusLabel1 = New System.Windows.Forms.ToolStripStatusLabel()
+        Me.Listings = New System.Windows.Forms.Panel()
+        Me.Label3 = New System.Windows.Forms.Label()
+        Me.ServiceController1 = New System.ServiceProcess.ServiceController()
         Me.Welcome.SuspendLayout()
         Me.Main.SuspendLayout()
         CType(Me.PictureBox2, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.StatusStrip1.SuspendLayout()
+        Me.Listings.SuspendLayout()
         Me.SuspendLayout()
         '
         'Welcome
@@ -140,63 +144,63 @@ Partial Class Form1
         '
         'Main
         '
-        Me.Main.Controls.Add(Me.Button6)
-        Me.Main.Controls.Add(Me.Button5)
-        Me.Main.Controls.Add(Me.Button4)
+        Me.Main.Controls.Add(Me.TitleButton)
+        Me.Main.Controls.Add(Me.ArtistButton)
+        Me.Main.Controls.Add(Me.GenreButton)
         Me.Main.Controls.Add(Me.Label2)
         Me.Main.Controls.Add(Me.PictureBox2)
-        Me.Main.Location = New System.Drawing.Point(318, 12)
+        Me.Main.Location = New System.Drawing.Point(12, 237)
         Me.Main.Name = "Main"
         Me.Main.Size = New System.Drawing.Size(442, 251)
         Me.Main.TabIndex = 1
         '
-        'Button6
+        'TitleButton
         '
-        Me.Button6.Anchor = System.Windows.Forms.AnchorStyles.None
-        Me.Button6.BackColor = System.Drawing.Color.FromArgb(CType(CType(108, Byte), Integer), CType(CType(122, Byte), Integer), CType(CType(137, Byte), Integer))
-        Me.Button6.Cursor = System.Windows.Forms.Cursors.Hand
-        Me.Button6.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(CType(CType(87, Byte), Integer), CType(CType(98, Byte), Integer), CType(CType(111, Byte), Integer))
-        Me.Button6.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-        Me.Button6.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Button6.ForeColor = System.Drawing.Color.White
-        Me.Button6.Location = New System.Drawing.Point(292, 188)
-        Me.Button6.Name = "Button6"
-        Me.Button6.Size = New System.Drawing.Size(121, 34)
-        Me.Button6.TabIndex = 8
-        Me.Button6.Text = "By Title"
-        Me.Button6.UseVisualStyleBackColor = False
+        Me.TitleButton.Anchor = System.Windows.Forms.AnchorStyles.None
+        Me.TitleButton.BackColor = System.Drawing.Color.FromArgb(CType(CType(108, Byte), Integer), CType(CType(122, Byte), Integer), CType(CType(137, Byte), Integer))
+        Me.TitleButton.Cursor = System.Windows.Forms.Cursors.Hand
+        Me.TitleButton.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(CType(CType(87, Byte), Integer), CType(CType(98, Byte), Integer), CType(CType(111, Byte), Integer))
+        Me.TitleButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.TitleButton.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.TitleButton.ForeColor = System.Drawing.Color.White
+        Me.TitleButton.Location = New System.Drawing.Point(292, 188)
+        Me.TitleButton.Name = "TitleButton"
+        Me.TitleButton.Size = New System.Drawing.Size(121, 34)
+        Me.TitleButton.TabIndex = 8
+        Me.TitleButton.Text = "By Title"
+        Me.TitleButton.UseVisualStyleBackColor = False
         '
-        'Button5
+        'ArtistButton
         '
-        Me.Button5.Anchor = System.Windows.Forms.AnchorStyles.None
-        Me.Button5.BackColor = System.Drawing.Color.FromArgb(CType(CType(108, Byte), Integer), CType(CType(122, Byte), Integer), CType(CType(137, Byte), Integer))
-        Me.Button5.Cursor = System.Windows.Forms.Cursors.Hand
-        Me.Button5.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(CType(CType(87, Byte), Integer), CType(CType(98, Byte), Integer), CType(CType(111, Byte), Integer))
-        Me.Button5.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-        Me.Button5.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Button5.ForeColor = System.Drawing.Color.White
-        Me.Button5.Location = New System.Drawing.Point(165, 188)
-        Me.Button5.Name = "Button5"
-        Me.Button5.Size = New System.Drawing.Size(121, 34)
-        Me.Button5.TabIndex = 7
-        Me.Button5.Text = "By Artist"
-        Me.Button5.UseVisualStyleBackColor = False
+        Me.ArtistButton.Anchor = System.Windows.Forms.AnchorStyles.None
+        Me.ArtistButton.BackColor = System.Drawing.Color.FromArgb(CType(CType(108, Byte), Integer), CType(CType(122, Byte), Integer), CType(CType(137, Byte), Integer))
+        Me.ArtistButton.Cursor = System.Windows.Forms.Cursors.Hand
+        Me.ArtistButton.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(CType(CType(87, Byte), Integer), CType(CType(98, Byte), Integer), CType(CType(111, Byte), Integer))
+        Me.ArtistButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.ArtistButton.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.ArtistButton.ForeColor = System.Drawing.Color.White
+        Me.ArtistButton.Location = New System.Drawing.Point(165, 188)
+        Me.ArtistButton.Name = "ArtistButton"
+        Me.ArtistButton.Size = New System.Drawing.Size(121, 34)
+        Me.ArtistButton.TabIndex = 7
+        Me.ArtistButton.Text = "By Artist"
+        Me.ArtistButton.UseVisualStyleBackColor = False
         '
-        'Button4
+        'GenreButton
         '
-        Me.Button4.Anchor = System.Windows.Forms.AnchorStyles.None
-        Me.Button4.BackColor = System.Drawing.Color.FromArgb(CType(CType(108, Byte), Integer), CType(CType(122, Byte), Integer), CType(CType(137, Byte), Integer))
-        Me.Button4.Cursor = System.Windows.Forms.Cursors.Hand
-        Me.Button4.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(CType(CType(87, Byte), Integer), CType(CType(98, Byte), Integer), CType(CType(111, Byte), Integer))
-        Me.Button4.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-        Me.Button4.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Button4.ForeColor = System.Drawing.Color.White
-        Me.Button4.Location = New System.Drawing.Point(38, 188)
-        Me.Button4.Name = "Button4"
-        Me.Button4.Size = New System.Drawing.Size(121, 34)
-        Me.Button4.TabIndex = 6
-        Me.Button4.Text = "By Genre"
-        Me.Button4.UseVisualStyleBackColor = False
+        Me.GenreButton.Anchor = System.Windows.Forms.AnchorStyles.None
+        Me.GenreButton.BackColor = System.Drawing.Color.FromArgb(CType(CType(108, Byte), Integer), CType(CType(122, Byte), Integer), CType(CType(137, Byte), Integer))
+        Me.GenreButton.Cursor = System.Windows.Forms.Cursors.Hand
+        Me.GenreButton.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(CType(CType(87, Byte), Integer), CType(CType(98, Byte), Integer), CType(CType(111, Byte), Integer))
+        Me.GenreButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.GenreButton.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.GenreButton.ForeColor = System.Drawing.Color.White
+        Me.GenreButton.Location = New System.Drawing.Point(38, 188)
+        Me.GenreButton.Name = "GenreButton"
+        Me.GenreButton.Size = New System.Drawing.Size(121, 34)
+        Me.GenreButton.TabIndex = 6
+        Me.GenreButton.Text = "By Genre"
+        Me.GenreButton.UseVisualStyleBackColor = False
         '
         'Label2
         '
@@ -225,9 +229,9 @@ Partial Class Form1
         '
         Me.StatusStrip1.AutoSize = False
         Me.StatusStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripStatusLabel2, Me.ToolStripStatusLabel3, Me.ToolStripStatusLabel1})
-        Me.StatusStrip1.Location = New System.Drawing.Point(0, 435)
+        Me.StatusStrip1.Location = New System.Drawing.Point(0, 548)
         Me.StatusStrip1.Name = "StatusStrip1"
-        Me.StatusStrip1.Size = New System.Drawing.Size(806, 33)
+        Me.StatusStrip1.Size = New System.Drawing.Size(1062, 33)
         Me.StatusStrip1.SizingGrip = False
         Me.StatusStrip1.TabIndex = 2
         Me.StatusStrip1.Text = "StatusStrip1"
@@ -242,6 +246,13 @@ Partial Class Form1
         Me.ToolStripStatusLabel2.Size = New System.Drawing.Size(157, 28)
         Me.ToolStripStatusLabel2.Text = "Welcome back, Guest"
         '
+        'ToolStripStatusLabel3
+        '
+        Me.ToolStripStatusLabel3.BackColor = System.Drawing.Color.Transparent
+        Me.ToolStripStatusLabel3.Name = "ToolStripStatusLabel3"
+        Me.ToolStripStatusLabel3.Size = New System.Drawing.Size(769, 28)
+        Me.ToolStripStatusLabel3.Spring = True
+        '
         'ToolStripStatusLabel1
         '
         Me.ToolStripStatusLabel1.BackColor = System.Drawing.Color.Transparent
@@ -252,22 +263,37 @@ Partial Class Form1
         Me.ToolStripStatusLabel1.Size = New System.Drawing.Size(91, 28)
         Me.ToolStripStatusLabel1.Text = "My Wishlist"
         '
-        'ToolStripStatusLabel3
+        'Listings
         '
-        Me.ToolStripStatusLabel3.BackColor = System.Drawing.Color.Transparent
-        Me.ToolStripStatusLabel3.Name = "ToolStripStatusLabel3"
-        Me.ToolStripStatusLabel3.Size = New System.Drawing.Size(513, 28)
-        Me.ToolStripStatusLabel3.Spring = True
+        Me.Listings.Controls.Add(Me.Label3)
+        Me.Listings.Location = New System.Drawing.Point(460, 14)
+        Me.Listings.Name = "Listings"
+        Me.Listings.Size = New System.Drawing.Size(548, 474)
+        Me.Listings.TabIndex = 3
+        '
+        'Label3
+        '
+        Me.Label3.AutoSize = True
+        Me.Label3.Font = New System.Drawing.Font("Segoe UI", 20.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label3.ForeColor = System.Drawing.Color.FromArgb(CType(CType(64, Byte), Integer), CType(CType(64, Byte), Integer), CType(CType(64, Byte), Integer))
+        Me.Label3.Location = New System.Drawing.Point(7, 6)
+        Me.Label3.Name = "Label3"
+        Me.Label3.Size = New System.Drawing.Size(238, 37)
+        Me.Label3.TabIndex = 9
+        Me.Label3.Text = "Showing All Artists"
+        Me.Label3.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
         '
         'Form1
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.Color.White
-        Me.ClientSize = New System.Drawing.Size(806, 468)
+        Me.ClientSize = New System.Drawing.Size(1062, 581)
+        Me.Controls.Add(Me.Listings)
         Me.Controls.Add(Me.StatusStrip1)
         Me.Controls.Add(Me.Main)
         Me.Controls.Add(Me.Welcome)
+        Me.DoubleBuffered = True
         Me.Name = "Form1"
         Me.Text = "Form1"
         Me.Welcome.ResumeLayout(False)
@@ -276,6 +302,8 @@ Partial Class Form1
         CType(Me.PictureBox2, System.ComponentModel.ISupportInitialize).EndInit()
         Me.StatusStrip1.ResumeLayout(False)
         Me.StatusStrip1.PerformLayout()
+        Me.Listings.ResumeLayout(False)
+        Me.Listings.PerformLayout()
         Me.ResumeLayout(False)
 
     End Sub
@@ -295,12 +323,15 @@ Partial Class Form1
     Friend WithEvents Main As System.Windows.Forms.Panel
     Friend WithEvents Label2 As System.Windows.Forms.Label
     Friend WithEvents PictureBox2 As System.Windows.Forms.PictureBox
-    Friend WithEvents Button6 As System.Windows.Forms.Button
-    Friend WithEvents Button5 As System.Windows.Forms.Button
-    Friend WithEvents Button4 As System.Windows.Forms.Button
+    Friend WithEvents TitleButton As System.Windows.Forms.Button
+    Friend WithEvents ArtistButton As System.Windows.Forms.Button
+    Friend WithEvents GenreButton As System.Windows.Forms.Button
     Friend WithEvents StatusStrip1 As System.Windows.Forms.StatusStrip
     Friend WithEvents ToolStripStatusLabel2 As System.Windows.Forms.ToolStripStatusLabel
     Friend WithEvents ToolStripStatusLabel1 As System.Windows.Forms.ToolStripStatusLabel
     Friend WithEvents ToolStripStatusLabel3 As System.Windows.Forms.ToolStripStatusLabel
+    Friend WithEvents Listings As System.Windows.Forms.Panel
+    Friend WithEvents Label3 As System.Windows.Forms.Label
+    Friend WithEvents ServiceController1 As System.ServiceProcess.ServiceController
 
 End Class
