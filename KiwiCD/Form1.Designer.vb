@@ -40,7 +40,10 @@ Partial Class Form1
         Me.ToolStripStatusLabel3 = New System.Windows.Forms.ToolStripStatusLabel()
         Me.ToolStripStatusLabel1 = New System.Windows.Forms.ToolStripStatusLabel()
         Me.Listings = New System.Windows.Forms.Panel()
-        Me.Label3 = New System.Windows.Forms.Label()
+        Me.selectionButton = New System.Windows.Forms.Button()
+        Me.searchBox = New System.Windows.Forms.TextBox()
+        Me.listingBox = New System.Windows.Forms.ListBox()
+        Me.listingLabel = New System.Windows.Forms.Label()
         Me.ServiceController1 = New System.ServiceProcess.ServiceController()
         Me.Welcome.SuspendLayout()
         Me.Main.SuspendLayout()
@@ -265,23 +268,73 @@ Partial Class Form1
         '
         'Listings
         '
-        Me.Listings.Controls.Add(Me.Label3)
+        Me.Listings.Controls.Add(Me.selectionButton)
+        Me.Listings.Controls.Add(Me.searchBox)
+        Me.Listings.Controls.Add(Me.listingBox)
+        Me.Listings.Controls.Add(Me.listingLabel)
         Me.Listings.Location = New System.Drawing.Point(460, 14)
         Me.Listings.Name = "Listings"
         Me.Listings.Size = New System.Drawing.Size(548, 474)
         Me.Listings.TabIndex = 3
         '
-        'Label3
+        'selectionButton
         '
-        Me.Label3.AutoSize = True
-        Me.Label3.Font = New System.Drawing.Font("Segoe UI", 20.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label3.ForeColor = System.Drawing.Color.FromArgb(CType(CType(64, Byte), Integer), CType(CType(64, Byte), Integer), CType(CType(64, Byte), Integer))
-        Me.Label3.Location = New System.Drawing.Point(7, 6)
-        Me.Label3.Name = "Label3"
-        Me.Label3.Size = New System.Drawing.Size(238, 37)
-        Me.Label3.TabIndex = 9
-        Me.Label3.Text = "Showing All Artists"
-        Me.Label3.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        Me.selectionButton.Anchor = System.Windows.Forms.AnchorStyles.Bottom
+        Me.selectionButton.BackColor = System.Drawing.Color.FromArgb(CType(CType(36, Byte), Integer), CType(CType(166, Byte), Integer), CType(CType(91, Byte), Integer))
+        Me.selectionButton.Cursor = System.Windows.Forms.Cursors.Hand
+        Me.selectionButton.Enabled = False
+        Me.selectionButton.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(CType(CType(29, Byte), Integer), CType(CType(129, Byte), Integer), CType(CType(71, Byte), Integer))
+        Me.selectionButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.selectionButton.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.selectionButton.ForeColor = System.Drawing.Color.FromArgb(CType(CType(29, Byte), Integer), CType(CType(129, Byte), Integer), CType(CType(71, Byte), Integer))
+        Me.selectionButton.Location = New System.Drawing.Point(14, 411)
+        Me.selectionButton.Margin = New System.Windows.Forms.Padding(0)
+        Me.selectionButton.Name = "selectionButton"
+        Me.selectionButton.Size = New System.Drawing.Size(516, 34)
+        Me.selectionButton.TabIndex = 6
+        Me.selectionButton.Tag = "Click an item to select it"
+        Me.selectionButton.Text = "Click an item to select it"
+        Me.selectionButton.UseVisualStyleBackColor = False
+        '
+        'searchBox
+        '
+        Me.searchBox.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.searchBox.BackColor = System.Drawing.Color.WhiteSmoke
+        Me.searchBox.Font = New System.Drawing.Font("Segoe UI", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.searchBox.Location = New System.Drawing.Point(14, 54)
+        Me.searchBox.Name = "searchBox"
+        Me.searchBox.Size = New System.Drawing.Size(516, 29)
+        Me.searchBox.TabIndex = 6
+        '
+        'listingBox
+        '
+        Me.listingBox.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+            Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.listingBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.listingBox.Cursor = System.Windows.Forms.Cursors.Hand
+        Me.listingBox.Font = New System.Drawing.Font("Segoe UI", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.listingBox.FormattingEnabled = True
+        Me.listingBox.ItemHeight = 21
+        Me.listingBox.Location = New System.Drawing.Point(14, 89)
+        Me.listingBox.Margin = New System.Windows.Forms.Padding(0)
+        Me.listingBox.Name = "listingBox"
+        Me.listingBox.ScrollAlwaysVisible = True
+        Me.listingBox.Size = New System.Drawing.Size(516, 317)
+        Me.listingBox.TabIndex = 10
+        '
+        'listingLabel
+        '
+        Me.listingLabel.AutoSize = True
+        Me.listingLabel.Font = New System.Drawing.Font("Segoe UI Light", 20.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.listingLabel.ForeColor = System.Drawing.Color.FromArgb(CType(CType(64, Byte), Integer), CType(CType(64, Byte), Integer), CType(CType(64, Byte), Integer))
+        Me.listingLabel.Location = New System.Drawing.Point(7, 6)
+        Me.listingLabel.Name = "listingLabel"
+        Me.listingLabel.Size = New System.Drawing.Size(224, 37)
+        Me.listingLabel.TabIndex = 9
+        Me.listingLabel.Text = "Showing All Artists"
+        Me.listingLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
         '
         'Form1
         '
@@ -331,7 +384,10 @@ Partial Class Form1
     Friend WithEvents ToolStripStatusLabel1 As System.Windows.Forms.ToolStripStatusLabel
     Friend WithEvents ToolStripStatusLabel3 As System.Windows.Forms.ToolStripStatusLabel
     Friend WithEvents Listings As System.Windows.Forms.Panel
-    Friend WithEvents Label3 As System.Windows.Forms.Label
+    Friend WithEvents listingLabel As System.Windows.Forms.Label
     Friend WithEvents ServiceController1 As System.ServiceProcess.ServiceController
+    Friend WithEvents listingBox As System.Windows.Forms.ListBox
+    Friend WithEvents searchBox As System.Windows.Forms.TextBox
+    Friend WithEvents selectionButton As System.Windows.Forms.Button
 
 End Class
