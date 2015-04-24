@@ -49,4 +49,7 @@
         Return genres
     End Function
 
+    Public Function GetArtists() As List(Of String)
+        Return artists
+    End Function
 End Class

@@ -4,8 +4,13 @@ Public Class Form1
     Dim library As New Library()
     Dim listContents As New List(Of String)
     Dim selectFormat As String
+    Dim currentListings As Integer
 
     Private Const listingFormat As String = "Showing All {0}"
+
+    Private Const GENRE As Integer = 0
+    Private Const ARTIST As Integer = 1
+    Private Const TITLE As Integer = 2
 
     Private Sub loadXML()
         Dim xml_doc As XmlDocument
@@ -52,20 +57,35 @@ Public Class Form1
         StatusStrip1.Show()
     End Sub
 
-    Private Sub showGenres()
+    Private Sub ShowListing(ByVal category As Integer)
         listingBox.Items.Clear()
         listContents.Clear()
-        For Each genre As String In library.GetGenres()
-            listingBox.Items.Add(genre)
-            listContents.Add(genre)
+
+        Dim listing As New List(Of String)
+
+        Select Case category
+            Case GENRE
+                listing = library.GetGenres()
+                selectFormat = "View all {0} tracks"
+                listingLabel.Text = String.Format(listingFormat, "Genres")
+
+            Case ARTIST
+                listing = library.GetArtists()
+                selectFormat = "View all tracks by {0}"
+                listingLabel.Text = String.Format(listingFormat, "Artists")
+        End Select
+
+        For Each item As String In listing
+            listingBox.Items.Add(item)
+            listContents.Add(item)
         Next
-        selectFormat = "View all {0} tracks"
-        listingLabel.Text = String.Format(listingFormat, "Genres")
+
+        currentListings = GENRE
         showPane(Listings)
     End Sub
 
     Private Sub GenreButton_Click(sender As Object, e As EventArgs) Handles GenreButton.Click
-        showGenres()
+        ShowListing(GENRE)
     End Sub
 
     Private Sub listingBox_SelectedIndexChanged(sender As Object, e As EventArgs)
@@ -93,7 +113,7 @@ Public Class Form1
 
     Private Sub listingBox_SelectedIndexChanged_1(sender As Object, e As EventArgs) Handles listingBox.SelectedIndexChanged
         If listingBox.SelectedItem IsNot Nothing Then
-            selectionButton.Tag = String.Format(selectFormat, listingBox.SelectedItem.ToString().ToLower())
+            selectionButton.Tag = String.Format(selectFormat, listingBox.SelectedItem.ToString())
             selectionButton.Enabled = True
             selectionButton.Refresh()
         End If
@@ -114,9 +134,20 @@ Public Class Form1
         sf.Dispose()
     End Sub
 
-    Private Sub listingBox_EnabledChanged(sender As Object, e As EventArgs) Handles listingBox.EnabledChanged
-        If listingBox.Enabled Then
-
+    Private Sub selectionButton_EnabledChanged(sender As Object, e As EventArgs) Handles selectionButton.EnabledChanged
+        Dim btn = CType(sender, Button)
+        If btn.Enabled Then
+            btn.ForeColor = Color.White
+        Else
+            btn.ForeColor = Color.FromArgb(29, 129, 71)
         End If
+    End Sub
+
+    Private Sub selectionButton_Click(sender As Object, e As EventArgs) Handles selectionButton.Click
+
+    End Sub
+
+    Private Sub ArtistButton_Click(sender As Object, e As EventArgs) Handles ArtistButton.Click
+        ShowListing(ARTIST)
     End Sub
 End Class
