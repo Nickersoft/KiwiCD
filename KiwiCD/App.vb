@@ -8,6 +8,7 @@ Public Class App
     Dim selectFormat As String
     Dim currentListing As Integer
     Dim activeCD As CDROM = Nothing
+    Dim lastPanel As New Panel
 
     Private Const listingFormat As String = "Showing All {0}"
     Private Const defaultSelectTag As String = "Click an item to select it"
@@ -47,7 +48,7 @@ Public Class App
     End Sub
 
     Private Sub showPane(p As Panel)
-        For Each c As Control In Me.Controls
+        For Each c As Control In Me.contentPanel.Controls
             If TypeOf c Is Panel Then
                 c.Hide()
             End If
@@ -77,6 +78,7 @@ Public Class App
     Private Sub GuestButton_Click(sender As Object, e As EventArgs) Handles GuestButton.Click
         showPane(Main)
         StatusStrip1.Show()
+        StatusStrip2.Show()
     End Sub
 
     Private Sub ShowAlbumDetails(ByVal cd As CDROM)
@@ -264,7 +266,7 @@ Public Class App
         End If
     End Sub
 
-    Private Sub wishlistButton_Click_1(sender As Object, e As EventArgs) Handles wishlistButton.Click
+    Private Sub wishlistButton_Click(sender As Object, e As EventArgs) Handles wishlistButton.Click
         showPane(Wishlist)
     End Sub
 
@@ -297,4 +299,11 @@ Public Class App
         End If
     End Sub
 
+    Private Sub logoutButton_Click(sender As Object, e As EventArgs) Handles logoutButton.Click
+        showPane(Welcome)
+    End Sub
+
+    Private Sub backButton_ButtonClick(sender As Object, e As EventArgs) Handles backButton.ButtonClick
+        showPane(lastPanel)
+    End Sub
 End Class
