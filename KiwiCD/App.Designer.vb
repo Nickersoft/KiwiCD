@@ -40,24 +40,29 @@ Partial Class App
         Me.ToolStripStatusLabel3 = New System.Windows.Forms.ToolStripStatusLabel()
         Me.ToolStripStatusLabel1 = New System.Windows.Forms.ToolStripStatusLabel()
         Me.Listings = New System.Windows.Forms.Panel()
+        Me.listingBox = New System.Windows.Forms.ListView()
         Me.selectionButton = New System.Windows.Forms.Button()
         Me.searchBox = New System.Windows.Forms.TextBox()
-        Me.listingBox = New System.Windows.Forms.ListBox()
         Me.listingLabel = New System.Windows.Forms.Label()
         Me.ServiceController1 = New System.ServiceProcess.ServiceController()
-        Me.Panel1 = New System.Windows.Forms.Panel()
-        Me.Label3 = New System.Windows.Forms.Label()
-        Me.PictureBox3 = New System.Windows.Forms.PictureBox()
-        Me.Label4 = New System.Windows.Forms.Label()
-        Me.Label5 = New System.Windows.Forms.Label()
+        Me.Details = New System.Windows.Forms.Panel()
+        Me.Button5 = New System.Windows.Forms.Button()
+        Me.Button4 = New System.Windows.Forms.Button()
+        Me.stockLabel = New System.Windows.Forms.Label()
+        Me.genreLabel = New System.Windows.Forms.Label()
+        Me.artistLabel = New System.Windows.Forms.Label()
         Me.Label6 = New System.Windows.Forms.Label()
+        Me.Label5 = New System.Windows.Forms.Label()
+        Me.Label4 = New System.Windows.Forms.Label()
+        Me.artworkBox = New System.Windows.Forms.PictureBox()
+        Me.Label3 = New System.Windows.Forms.Label()
         Me.Welcome.SuspendLayout()
         Me.Main.SuspendLayout()
         CType(Me.PictureBox2, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.StatusStrip1.SuspendLayout()
         Me.Listings.SuspendLayout()
-        Me.Panel1.SuspendLayout()
-        CType(Me.PictureBox3, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.Details.SuspendLayout()
+        CType(Me.artworkBox, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'Welcome
@@ -254,14 +259,14 @@ Partial Class App
         Me.ToolStripStatusLabel2.ForeColor = System.Drawing.Color.DimGray
         Me.ToolStripStatusLabel2.Margin = New System.Windows.Forms.Padding(10, 3, 0, 2)
         Me.ToolStripStatusLabel2.Name = "ToolStripStatusLabel2"
-        Me.ToolStripStatusLabel2.Size = New System.Drawing.Size(157, 28)
+        Me.ToolStripStatusLabel2.Size = New System.Drawing.Size(157, 41)
         Me.ToolStripStatusLabel2.Text = "Welcome back, Guest"
         '
         'ToolStripStatusLabel3
         '
         Me.ToolStripStatusLabel3.BackColor = System.Drawing.Color.Transparent
         Me.ToolStripStatusLabel3.Name = "ToolStripStatusLabel3"
-        Me.ToolStripStatusLabel3.Size = New System.Drawing.Size(769, 28)
+        Me.ToolStripStatusLabel3.Size = New System.Drawing.Size(754, 41)
         Me.ToolStripStatusLabel3.Spring = True
         '
         'ToolStripStatusLabel1
@@ -271,19 +276,38 @@ Partial Class App
         Me.ToolStripStatusLabel1.ForeColor = System.Drawing.Color.FromArgb(CType(CType(64, Byte), Integer), CType(CType(64, Byte), Integer), CType(CType(64, Byte), Integer))
         Me.ToolStripStatusLabel1.Margin = New System.Windows.Forms.Padding(10, 3, 10, 2)
         Me.ToolStripStatusLabel1.Name = "ToolStripStatusLabel1"
-        Me.ToolStripStatusLabel1.Size = New System.Drawing.Size(91, 28)
+        Me.ToolStripStatusLabel1.Size = New System.Drawing.Size(91, 41)
         Me.ToolStripStatusLabel1.Text = "My Wishlist"
         '
         'Listings
         '
+        Me.Listings.Controls.Add(Me.listingBox)
         Me.Listings.Controls.Add(Me.selectionButton)
         Me.Listings.Controls.Add(Me.searchBox)
-        Me.Listings.Controls.Add(Me.listingBox)
         Me.Listings.Controls.Add(Me.listingLabel)
-        Me.Listings.Location = New System.Drawing.Point(12, 494)
+        Me.Listings.Location = New System.Drawing.Point(460, 289)
         Me.Listings.Name = "Listings"
         Me.Listings.Size = New System.Drawing.Size(548, 474)
         Me.Listings.TabIndex = 3
+        '
+        'listingBox
+        '
+        Me.listingBox.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+            Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.listingBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.listingBox.Cursor = System.Windows.Forms.Cursors.Hand
+        Me.listingBox.Font = New System.Drawing.Font("Segoe UI", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.listingBox.FullRowSelect = True
+        Me.listingBox.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable
+        Me.listingBox.Location = New System.Drawing.Point(14, 90)
+        Me.listingBox.MultiSelect = False
+        Me.listingBox.Name = "listingBox"
+        Me.listingBox.Size = New System.Drawing.Size(516, 311)
+        Me.listingBox.Sorting = System.Windows.Forms.SortOrder.Ascending
+        Me.listingBox.TabIndex = 10
+        Me.listingBox.UseCompatibleStateImageBehavior = False
+        Me.listingBox.View = System.Windows.Forms.View.Details
         '
         'selectionButton
         '
@@ -315,24 +339,6 @@ Partial Class App
         Me.searchBox.Size = New System.Drawing.Size(516, 29)
         Me.searchBox.TabIndex = 6
         '
-        'listingBox
-        '
-        Me.listingBox.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-            Or System.Windows.Forms.AnchorStyles.Left) _
-            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.listingBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.listingBox.Cursor = System.Windows.Forms.Cursors.Hand
-        Me.listingBox.Font = New System.Drawing.Font("Segoe UI", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.listingBox.FormattingEnabled = True
-        Me.listingBox.ItemHeight = 21
-        Me.listingBox.Location = New System.Drawing.Point(14, 89)
-        Me.listingBox.Margin = New System.Windows.Forms.Padding(0)
-        Me.listingBox.Name = "listingBox"
-        Me.listingBox.ScrollAlwaysVisible = True
-        Me.listingBox.Size = New System.Drawing.Size(516, 317)
-        Me.listingBox.Sorted = True
-        Me.listingBox.TabIndex = 10
-        '
         'listingLabel
         '
         Me.listingLabel.AutoSize = True
@@ -345,63 +351,93 @@ Partial Class App
         Me.listingLabel.Text = "Showing All Artists"
         Me.listingLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
         '
-        'Panel1
+        'Details
         '
-        Me.Panel1.Controls.Add(Me.Label6)
-        Me.Panel1.Controls.Add(Me.Label5)
-        Me.Panel1.Controls.Add(Me.Label4)
-        Me.Panel1.Controls.Add(Me.PictureBox3)
-        Me.Panel1.Controls.Add(Me.Label3)
-        Me.Panel1.Location = New System.Drawing.Point(460, 12)
-        Me.Panel1.Name = "Panel1"
-        Me.Panel1.Size = New System.Drawing.Size(575, 476)
-        Me.Panel1.TabIndex = 4
+        Me.Details.Controls.Add(Me.Button5)
+        Me.Details.Controls.Add(Me.Button4)
+        Me.Details.Controls.Add(Me.stockLabel)
+        Me.Details.Controls.Add(Me.genreLabel)
+        Me.Details.Controls.Add(Me.artistLabel)
+        Me.Details.Controls.Add(Me.Label6)
+        Me.Details.Controls.Add(Me.Label5)
+        Me.Details.Controls.Add(Me.Label4)
+        Me.Details.Controls.Add(Me.artworkBox)
+        Me.Details.Controls.Add(Me.Label3)
+        Me.Details.Location = New System.Drawing.Point(460, 12)
+        Me.Details.Name = "Details"
+        Me.Details.Size = New System.Drawing.Size(295, 271)
+        Me.Details.TabIndex = 4
         '
-        'Label3
+        'Button5
         '
-        Me.Label3.Anchor = System.Windows.Forms.AnchorStyles.None
-        Me.Label3.Font = New System.Drawing.Font("Segoe UI Light", 21.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label3.ForeColor = System.Drawing.Color.Black
-        Me.Label3.Location = New System.Drawing.Point(3, 10)
-        Me.Label3.Name = "Label3"
-        Me.Label3.Size = New System.Drawing.Size(432, 51)
-        Me.Label3.TabIndex = 6
-        Me.Label3.Text = "{CD Title}"
-        Me.Label3.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
+        Me.Button5.Anchor = System.Windows.Forms.AnchorStyles.None
+        Me.Button5.BackColor = System.Drawing.Color.FromArgb(CType(CType(108, Byte), Integer), CType(CType(122, Byte), Integer), CType(CType(137, Byte), Integer))
+        Me.Button5.Cursor = System.Windows.Forms.Cursors.Hand
+        Me.Button5.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(CType(CType(87, Byte), Integer), CType(CType(98, Byte), Integer), CType(CType(111, Byte), Integer))
+        Me.Button5.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.Button5.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Button5.ForeColor = System.Drawing.Color.White
+        Me.Button5.Location = New System.Drawing.Point(157, 217)
+        Me.Button5.Name = "Button5"
+        Me.Button5.Size = New System.Drawing.Size(125, 34)
+        Me.Button5.TabIndex = 6
+        Me.Button5.Text = "Add to Wishlist"
+        Me.Button5.UseVisualStyleBackColor = False
         '
-        'PictureBox3
+        'Button4
         '
-        Me.PictureBox3.Location = New System.Drawing.Point(10, 78)
-        Me.PictureBox3.Name = "PictureBox3"
-        Me.PictureBox3.Size = New System.Drawing.Size(164, 164)
-        Me.PictureBox3.TabIndex = 7
-        Me.PictureBox3.TabStop = False
+        Me.Button4.Anchor = System.Windows.Forms.AnchorStyles.None
+        Me.Button4.BackColor = System.Drawing.Color.FromArgb(CType(CType(245, Byte), Integer), CType(CType(171, Byte), Integer), CType(CType(53, Byte), Integer))
+        Me.Button4.Cursor = System.Windows.Forms.Cursors.Hand
+        Me.Button4.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(CType(CType(221, Byte), Integer), CType(CType(142, Byte), Integer), CType(CType(11, Byte), Integer))
+        Me.Button4.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.Button4.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Button4.ForeColor = System.Drawing.Color.White
+        Me.Button4.Location = New System.Drawing.Point(22, 217)
+        Me.Button4.Name = "Button4"
+        Me.Button4.Size = New System.Drawing.Size(125, 34)
+        Me.Button4.TabIndex = 6
+        Me.Button4.Text = "Buy for {Price}"
+        Me.Button4.UseVisualStyleBackColor = False
         '
-        'Label4
+        'stockLabel
         '
-        Me.Label4.Anchor = System.Windows.Forms.AnchorStyles.None
-        Me.Label4.AutoSize = True
-        Me.Label4.Font = New System.Drawing.Font("Segoe UI", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label4.ForeColor = System.Drawing.Color.DimGray
-        Me.Label4.Location = New System.Drawing.Point(197, 112)
-        Me.Label4.Name = "Label4"
-        Me.Label4.Size = New System.Drawing.Size(50, 21)
-        Me.Label4.TabIndex = 9
-        Me.Label4.Text = "Artist:"
-        Me.Label4.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        Me.stockLabel.Anchor = System.Windows.Forms.AnchorStyles.None
+        Me.stockLabel.AutoSize = True
+        Me.stockLabel.Font = New System.Drawing.Font("Segoe UI", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.stockLabel.ForeColor = System.Drawing.Color.Black
+        Me.stockLabel.Location = New System.Drawing.Point(220, 142)
+        Me.stockLabel.Name = "stockLabel"
+        Me.stockLabel.Size = New System.Drawing.Size(62, 21)
+        Me.stockLabel.TabIndex = 14
+        Me.stockLabel.Text = "{Count}"
+        Me.stockLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
         '
-        'Label5
+        'genreLabel
         '
-        Me.Label5.Anchor = System.Windows.Forms.AnchorStyles.None
-        Me.Label5.AutoSize = True
-        Me.Label5.Font = New System.Drawing.Font("Segoe UI", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label5.ForeColor = System.Drawing.Color.DimGray
-        Me.Label5.Location = New System.Drawing.Point(192, 139)
-        Me.Label5.Name = "Label5"
-        Me.Label5.Size = New System.Drawing.Size(55, 21)
-        Me.Label5.TabIndex = 10
-        Me.Label5.Text = "Genre:"
-        Me.Label5.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        Me.genreLabel.Anchor = System.Windows.Forms.AnchorStyles.None
+        Me.genreLabel.AutoSize = True
+        Me.genreLabel.Font = New System.Drawing.Font("Segoe UI", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.genreLabel.ForeColor = System.Drawing.Color.Black
+        Me.genreLabel.Location = New System.Drawing.Point(209, 115)
+        Me.genreLabel.Name = "genreLabel"
+        Me.genreLabel.Size = New System.Drawing.Size(62, 21)
+        Me.genreLabel.TabIndex = 13
+        Me.genreLabel.Text = "{Genre}"
+        Me.genreLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        '
+        'artistLabel
+        '
+        Me.artistLabel.Anchor = System.Windows.Forms.AnchorStyles.None
+        Me.artistLabel.AutoSize = True
+        Me.artistLabel.Font = New System.Drawing.Font("Segoe UI", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.artistLabel.ForeColor = System.Drawing.Color.Black
+        Me.artistLabel.Location = New System.Drawing.Point(209, 88)
+        Me.artistLabel.Name = "artistLabel"
+        Me.artistLabel.Size = New System.Drawing.Size(57, 21)
+        Me.artistLabel.TabIndex = 12
+        Me.artistLabel.Text = "{Artist}"
+        Me.artistLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
         '
         'Label6
         '
@@ -409,12 +445,60 @@ Partial Class App
         Me.Label6.AutoSize = True
         Me.Label6.Font = New System.Drawing.Font("Segoe UI", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label6.ForeColor = System.Drawing.Color.DimGray
-        Me.Label6.Location = New System.Drawing.Point(180, 166)
+        Me.Label6.Location = New System.Drawing.Point(153, 142)
         Me.Label6.Name = "Label6"
         Me.Label6.Size = New System.Drawing.Size(67, 21)
         Me.Label6.TabIndex = 11
         Me.Label6.Text = "In Stock:"
         Me.Label6.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        '
+        'Label5
+        '
+        Me.Label5.Anchor = System.Windows.Forms.AnchorStyles.None
+        Me.Label5.AutoSize = True
+        Me.Label5.Font = New System.Drawing.Font("Segoe UI", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label5.ForeColor = System.Drawing.Color.DimGray
+        Me.Label5.Location = New System.Drawing.Point(153, 115)
+        Me.Label5.Name = "Label5"
+        Me.Label5.Size = New System.Drawing.Size(55, 21)
+        Me.Label5.TabIndex = 10
+        Me.Label5.Text = "Genre:"
+        Me.Label5.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        '
+        'Label4
+        '
+        Me.Label4.Anchor = System.Windows.Forms.AnchorStyles.None
+        Me.Label4.AutoSize = True
+        Me.Label4.Font = New System.Drawing.Font("Segoe UI", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label4.ForeColor = System.Drawing.Color.DimGray
+        Me.Label4.Location = New System.Drawing.Point(153, 88)
+        Me.Label4.Name = "Label4"
+        Me.Label4.Size = New System.Drawing.Size(50, 21)
+        Me.Label4.TabIndex = 9
+        Me.Label4.Text = "Artist:"
+        Me.Label4.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        '
+        'artworkBox
+        '
+        Me.artworkBox.Anchor = System.Windows.Forms.AnchorStyles.None
+        Me.artworkBox.Location = New System.Drawing.Point(22, 86)
+        Me.artworkBox.Name = "artworkBox"
+        Me.artworkBox.Size = New System.Drawing.Size(125, 125)
+        Me.artworkBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom
+        Me.artworkBox.TabIndex = 7
+        Me.artworkBox.TabStop = False
+        '
+        'Label3
+        '
+        Me.Label3.Anchor = CType((System.Windows.Forms.AnchorStyles.Left Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.Label3.Font = New System.Drawing.Font("Segoe UI Light", 21.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label3.ForeColor = System.Drawing.Color.Black
+        Me.Label3.Location = New System.Drawing.Point(15, 2)
+        Me.Label3.Name = "Label3"
+        Me.Label3.Size = New System.Drawing.Size(267, 51)
+        Me.Label3.TabIndex = 6
+        Me.Label3.Text = "{CD Title}"
+        Me.Label3.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
         '
         'App
         '
@@ -422,7 +506,7 @@ Partial Class App
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.Color.White
         Me.ClientSize = New System.Drawing.Size(1047, 865)
-        Me.Controls.Add(Me.Panel1)
+        Me.Controls.Add(Me.Details)
         Me.Controls.Add(Me.Listings)
         Me.Controls.Add(Me.StatusStrip1)
         Me.Controls.Add(Me.Main)
@@ -438,9 +522,9 @@ Partial Class App
         Me.StatusStrip1.PerformLayout()
         Me.Listings.ResumeLayout(False)
         Me.Listings.PerformLayout()
-        Me.Panel1.ResumeLayout(False)
-        Me.Panel1.PerformLayout()
-        CType(Me.PictureBox3, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.Details.ResumeLayout(False)
+        Me.Details.PerformLayout()
+        CType(Me.artworkBox, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
     End Sub
@@ -470,14 +554,19 @@ Partial Class App
     Friend WithEvents Listings As System.Windows.Forms.Panel
     Friend WithEvents listingLabel As System.Windows.Forms.Label
     Friend WithEvents ServiceController1 As System.ServiceProcess.ServiceController
-    Friend WithEvents listingBox As System.Windows.Forms.ListBox
     Friend WithEvents searchBox As System.Windows.Forms.TextBox
     Friend WithEvents selectionButton As System.Windows.Forms.Button
-    Friend WithEvents Panel1 As System.Windows.Forms.Panel
+    Friend WithEvents Details As System.Windows.Forms.Panel
     Friend WithEvents Label5 As System.Windows.Forms.Label
     Friend WithEvents Label4 As System.Windows.Forms.Label
-    Friend WithEvents PictureBox3 As System.Windows.Forms.PictureBox
+    Friend WithEvents artworkBox As System.Windows.Forms.PictureBox
     Friend WithEvents Label3 As System.Windows.Forms.Label
     Friend WithEvents Label6 As System.Windows.Forms.Label
+    Friend WithEvents Button5 As System.Windows.Forms.Button
+    Friend WithEvents Button4 As System.Windows.Forms.Button
+    Friend WithEvents stockLabel As System.Windows.Forms.Label
+    Friend WithEvents genreLabel As System.Windows.Forms.Label
+    Friend WithEvents artistLabel As System.Windows.Forms.Label
+    Friend WithEvents listingBox As System.Windows.Forms.ListView
 
 End Class

@@ -3,22 +3,34 @@
     Dim genres, artists, titles As New List(Of String)
 
     Public Sub Add(ByVal cd As CDROM)
-        contents.Add(cd)
+        Dim valid As Boolean = True
 
-        Dim genre = cd.getGenre()
-        Dim artist = cd.getArtist()
-        Dim title = cd.getTitle()
+        For Each c As CDROM In contents
+            If c.GetKey() = cd.GetKey() Then
+                valid = False
+            End If
+        Next
 
-        If Not genres.Contains(genre) Then
-            genres.Add(genre)
-        End If
+        If valid Then
+            contents.Add(cd)
 
-        If Not artists.Contains(artist) Then
-            artists.Add(artist)
-        End If
+            Dim genre = cd.GetGenre()
+            Dim artist = cd.GetArtist()
+            Dim title = cd.GetTitle()
 
-        If Not titles.Contains(title) Then
-            titles.Add(title & " by " & artist)
+            If Not genres.Contains(genre) Then
+                genres.Add(genre)
+            End If
+
+            If Not artists.Contains(artist) Then
+                artists.Add(artist)
+            End If
+
+            If Not titles.Contains(title) Then
+                titles.Add(title)
+            End If
+        Else
+            Console.Error.Write("A CD with this key already exists. CD not added.")
         End If
 
     End Sub
@@ -39,10 +51,20 @@
         Return contents.Count
     End Function
 
+    Public Function GetCD(ByVal key As Integer) As CDROM
+        Dim found As CDROM = Nothing
+        For Each cd In contents
+            If cd.GetKey() = key Then
+                found = cd
+            End If
+        Next
+        Return found
+    End Function
+
     Public Function GetByArtist(ByVal artist As String) As Library
         Dim artistList As New Library()
         For Each cd In contents
-            If cd.getArtist().ToLower().Trim() = artist.ToLower().Trim() Then
+            If cd.GetArtist().ToLower().Trim() = artist.ToLower().Trim() Then
                 artistList.Add(cd)
             End If
         Next
@@ -52,7 +74,7 @@
     Public Function GetByGenre(ByVal genre As String) As Library
         Dim genreList As New Library()
         For Each cd In contents
-            If cd.getGenre().ToLower().Trim() = genre.ToLower().Trim() Then
+            If cd.GetGenre().ToLower().Trim() = genre.ToLower().Trim() Then
                 genreList.Add(cd)
             End If
         Next

@@ -1,8 +1,10 @@
 ﻿Imports System.Xml
+Imports System.Windows.Forms.ListView
+
 Public Class App
 
     Dim library As New Library()
-    Dim listContents As New List(Of String)
+    Dim listContents As New List(Of ListViewItem)
     Dim selectFormat As String
     Dim currentListing As Integer
 
@@ -22,14 +24,19 @@ Public Class App
         xml_nodes = xml_doc.SelectNodes("/catalog/cd")
 
         Dim xnode As XmlNode
-        Dim counter = 0
+        Dim counter As Integer = 0
         For Each xnode In xml_nodes
             Dim title = xnode.ChildNodes.Item(0).InnerText
             Dim artist = xnode.ChildNodes.Item(1).InnerText
             Dim genre = xnode.ChildNodes.Item(2).InnerText
 
-            Dim cd As New CDROM(title, artist, genre)
+            Dim cd As New CDROM(counter, title, artist, genre, 10.0)
+
+            Randomize()
+            cd.SetCount(Int(98 * Rnd()) & " ")
+
             library.Add(cd)
+            counter += 1
         Next
     End Sub
 
@@ -48,9 +55,19 @@ Public Class App
         p.Show()
     End Sub
 
+    Private Sub resetHeaders()
+        listingBox.Columns.Clear()
+        listingBox.Columns.Insert(0, "title", "Title", 200)
+        listingBox.Columns.Insert(1, "artist", "Artist", 200)
+        listingBox.Columns.Insert(2, "genre", "Genre", 200)
+    End Sub
+
     Private Sub Form1_Shown(sender As Object, e As EventArgs) Handles MyBase.Shown
         StatusStrip1.Hide()
         showPane(Welcome)
+
+
+
     End Sub
 
     Private Sub GuestButton_Click(sender As Object, e As EventArgs) Handles GuestButton.Click
@@ -58,10 +75,40 @@ Public Class App
         StatusStrip1.Show()
     End Sub
 
-    Private Sub ShowListing(ByVal category As Integer)
+    Private Sub ShowAlbumDetails(ByVal cd As CDROM)
+        listingBox.Hide()
+        Label3.Text = cd.GetTitle()
+        artistLabel.Text = cd.GetArtist()
+        genreLabel.Text = cd.GetGenre()
+        stockLabel.Text = cd.GetCount()
+        artworkBox.Image = cd.GetArtwork()
+        showPane(Details)
+    End Sub
+
+    Private Sub ShowAlbums(ByVal listing As List(Of CDROM))
         listingBox.Items.Clear()
         listContents.Clear()
+        resetHeaders()
+        selectFormat = "View {0}"
+        selectionButton.Tag = defaultSelectTag
+        selectionButton.Enabled = False
+        selectionButton.Refresh()
+        For Each cd As CDROM In listing
+            Dim item As New ListViewItem(cd.GetTitle())
+            item.SubItems.Add(cd.GetArtist())
+            item.SubItems.Add(cd.GetGenre())
+            item.Tag = cd.GetKey()
+            listingBox.Items.Add(item)
+            listContents.Add(item)
+        Next
+        currentListing = TITLE
+        showPane(Listings)
+    End Sub
 
+    Private Sub ShowCategory(ByVal category As Integer)
+        listingBox.Items.Clear()
+        listContents.Clear()
+        resetHeaders()
         Dim listing As New List(Of String)
         Dim listingTitle As String = ""
         Select Case category
@@ -69,21 +116,21 @@ Public Class App
                 listing = library.GetGenres()
                 selectFormat = "View all {0} tracks"
                 listingTitle = "Genres"
+                listingBox.Columns.RemoveByKey("title")
+                listingBox.Columns.RemoveByKey("artist")
 
             Case ARTIST
                 listing = library.GetArtists()
-                selectFormat = "View all tracks by {0}"
+                selectFormat = "View all albums by {0}"
                 listingTitle = "Artists"
-
-            Case TITLE
-                listing = library.GetTitles()
-                selectFormat = "View {0}"
-                listingTitle = "Titles"
+                listingBox.Columns.RemoveByKey("title")
+                listingBox.Columns.RemoveByKey("genre")
         End Select
 
         listingLabel.Text = String.Format(listingFormat, listingTitle)
 
-        For Each item As String In listing
+        For Each element As String In listing
+            Dim item As New ListViewItem(element)
             listingBox.Items.Add(item)
             listContents.Add(item)
         Next
@@ -93,12 +140,12 @@ Public Class App
     End Sub
 
     Private Sub GenreButton_Click(sender As Object, e As EventArgs) Handles GenreButton.Click
-        ShowListing(GENRE)
+        ShowCategory(GENRE)
     End Sub
 
     Private Sub listingBox_SelectedIndexChanged(sender As Object, e As EventArgs) Handles listingBox.SelectedIndexChanged
-        If listingBox.SelectedItem IsNot Nothing Then
-            selectionButton.Tag = String.Format(selectFormat, listingBox.SelectedItem.ToString())
+        If listingBox.SelectedItems.Count > 0 Then
+            selectionButton.Tag = String.Format(selectFormat, listingBox.SelectedItems(0).Text)
             selectionButton.Enabled = True
             selectionButton.Refresh()
         End If
@@ -109,15 +156,22 @@ Public Class App
             listingBox.Items.Clear()
             listingBox.Items.AddRange(listContents.ToArray())
         Else
-            Dim relevanceList As New List(Of String)
-            For Each item In listingBox.Items
-                If (item.ToString().ToLower().Trim().Contains(searchBox.Text.ToLower().Trim())) Then
-                    relevanceList.Add(item.ToString())
+            Dim relevanceList As New List(Of ListViewItem)
+            For Each item As ListViewItem In listingBox.Items
+                Dim keyword As String = searchBox.Text.ToLower().Trim()
+                Dim title As String = item.Text.ToLower().Trim()
+                Dim condition As Boolean = title.Contains(keyword)
+                If (item.SubItems.Count > 1) Then
+                    Dim artist = item.SubItems(0).Text.ToLower().Trim()
+                    Dim genre = item.SubItems(1).Text.ToLower().Trim()
+                    condition = title.Contains(keyword) Or artist.Contains(keyword) Or genre.Contains(keyword)
+                End If
+                If condition Then
+                    relevanceList.Add(item)
                 End If
             Next
             listingBox.Items.Clear()
             listingBox.Items.AddRange(relevanceList.ToArray())
-
         End If
     End Sub
 
@@ -146,30 +200,33 @@ Public Class App
     End Sub
 
     Private Sub ArtistButton_Click(sender As Object, e As EventArgs) Handles ArtistButton.Click
-        ShowListing(ARTIST)
+        ShowCategory(ARTIST)
     End Sub
 
     Private Sub selectionButton_Click(sender As Object, e As EventArgs) Handles selectionButton.Click
-        If (listingBox.SelectedItem IsNot Nothing) Then
+        If (listingBox.SelectedItems(0) IsNot Nothing) Then
             Dim newListing As New Library
+            Dim selectedCD = False
             Select Case currentListing
                 Case GENRE
-                    newListing = library.GetByGenre(listingBox.SelectedItem.ToString())
+                    newListing = library.GetByGenre(listingBox.SelectedItems(0).Text)
                 Case ARTIST
-                    newListing = library.GetByArtist(listingBox.SelectedItem.ToString())
+                    newListing = library.GetByArtist(listingBox.SelectedItems(0).Text)
+                Case TITLE
+                    selectedCD = True
             End Select
-            listingBox.Items.Clear()
-            selectFormat = "View {0}"
-            selectionButton.Tag = defaultSelectTag
-            selectionButton.Enabled = False
-            selectionButton.Refresh()
-            For Each cd As CDROM In newListing.All()
-                listingBox.Items.Add(cd.getTitle())
-            Next
+
+            If Not selectedCD Then
+                ShowAlbums(newListing.All())
+            Else
+                Dim key = listingBox.SelectedItems(0).Tag.ToString()
+                Dim cd As CDROM = library.GetCD(key)
+                ShowAlbumDetails(cd)
+            End If
         End If
     End Sub
 
     Private Sub TitleButton_Click(sender As Object, e As EventArgs) Handles TitleButton.Click
-        ShowListing(TITLE)
+        ShowAlbums(library.All())
     End Sub
 End Class
