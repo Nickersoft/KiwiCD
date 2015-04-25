@@ -18,7 +18,7 @@
         End If
 
         If Not titles.Contains(title) Then
-            titles.Add(title)
+            titles.Add(title & " by " & artist)
         End If
 
     End Sub
@@ -35,10 +35,24 @@
         Return contents
     End Function
 
+    Public Function Count() As Integer
+        Return contents.Count
+    End Function
+
+    Public Function GetByArtist(ByVal artist As String) As Library
+        Dim artistList As New Library()
+        For Each cd In contents
+            If cd.getArtist().ToLower().Trim() = artist.ToLower().Trim() Then
+                artistList.Add(cd)
+            End If
+        Next
+        Return artistList
+    End Function
+
     Public Function GetByGenre(ByVal genre As String) As Library
         Dim genreList As New Library()
         For Each cd In contents
-            If cd.getGenre() Is genre Then
+            If cd.getGenre().ToLower().Trim() = genre.ToLower().Trim() Then
                 genreList.Add(cd)
             End If
         Next
@@ -51,5 +65,9 @@
 
     Public Function GetArtists() As List(Of String)
         Return artists
+    End Function
+
+    Public Function GetTitles() As List(Of String)
+        Return titles
     End Function
 End Class

@@ -1,12 +1,13 @@
 ﻿Imports System.Xml
-Public Class Form1
+Public Class App
 
     Dim library As New Library()
     Dim listContents As New List(Of String)
     Dim selectFormat As String
-    Dim currentListings As Integer
+    Dim currentListing As Integer
 
     Private Const listingFormat As String = "Showing All {0}"
+    Private Const defaultSelectTag As String = "Click an item to select it"
 
     Private Const GENRE As Integer = 0
     Private Const ARTIST As Integer = 1
@@ -62,25 +63,32 @@ Public Class Form1
         listContents.Clear()
 
         Dim listing As New List(Of String)
-
+        Dim listingTitle As String = ""
         Select Case category
             Case GENRE
                 listing = library.GetGenres()
                 selectFormat = "View all {0} tracks"
-                listingLabel.Text = String.Format(listingFormat, "Genres")
+                listingTitle = "Genres"
 
             Case ARTIST
                 listing = library.GetArtists()
                 selectFormat = "View all tracks by {0}"
-                listingLabel.Text = String.Format(listingFormat, "Artists")
+                listingTitle = "Artists"
+
+            Case TITLE
+                listing = library.GetTitles()
+                selectFormat = "View {0}"
+                listingTitle = "Titles"
         End Select
+
+        listingLabel.Text = String.Format(listingFormat, listingTitle)
 
         For Each item As String In listing
             listingBox.Items.Add(item)
             listContents.Add(item)
         Next
 
-        currentListings = GENRE
+        currentListing = category
         showPane(Listings)
     End Sub
 
@@ -88,10 +96,12 @@ Public Class Form1
         ShowListing(GENRE)
     End Sub
 
-    Private Sub listingBox_SelectedIndexChanged(sender As Object, e As EventArgs)
-        For Each lvi As ListViewItem In listingBox.SelectedItems
-            lvi.Selected = False
-        Next
+    Private Sub listingBox_SelectedIndexChanged(sender As Object, e As EventArgs) Handles listingBox.SelectedIndexChanged
+        If listingBox.SelectedItem IsNot Nothing Then
+            selectionButton.Tag = String.Format(selectFormat, listingBox.SelectedItem.ToString())
+            selectionButton.Enabled = True
+            selectionButton.Refresh()
+        End If
     End Sub
 
     Private Sub searchBox_TextChanged(sender As Object, e As EventArgs) Handles searchBox.TextChanged
@@ -108,14 +118,6 @@ Public Class Form1
             listingBox.Items.Clear()
             listingBox.Items.AddRange(relevanceList.ToArray())
 
-        End If
-    End Sub
-
-    Private Sub listingBox_SelectedIndexChanged_1(sender As Object, e As EventArgs) Handles listingBox.SelectedIndexChanged
-        If listingBox.SelectedItem IsNot Nothing Then
-            selectionButton.Tag = String.Format(selectFormat, listingBox.SelectedItem.ToString())
-            selectionButton.Enabled = True
-            selectionButton.Refresh()
         End If
     End Sub
 
@@ -143,11 +145,31 @@ Public Class Form1
         End If
     End Sub
 
-    Private Sub selectionButton_Click(sender As Object, e As EventArgs) Handles selectionButton.Click
-
-    End Sub
-
     Private Sub ArtistButton_Click(sender As Object, e As EventArgs) Handles ArtistButton.Click
         ShowListing(ARTIST)
+    End Sub
+
+    Private Sub selectionButton_Click(sender As Object, e As EventArgs) Handles selectionButton.Click
+        If (listingBox.SelectedItem IsNot Nothing) Then
+            Dim newListing As New Library
+            Select Case currentListing
+                Case GENRE
+                    newListing = library.GetByGenre(listingBox.SelectedItem.ToString())
+                Case ARTIST
+                    newListing = library.GetByArtist(listingBox.SelectedItem.ToString())
+            End Select
+            listingBox.Items.Clear()
+            selectFormat = "View {0}"
+            selectionButton.Tag = defaultSelectTag
+            selectionButton.Enabled = False
+            selectionButton.Refresh()
+            For Each cd As CDROM In newListing.All()
+                listingBox.Items.Add(cd.getTitle())
+            Next
+        End If
+    End Sub
+
+    Private Sub TitleButton_Click(sender As Object, e As EventArgs) Handles TitleButton.Click
+        ShowListing(TITLE)
     End Sub
 End Class

@@ -72,11 +72,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CDROM.vb" />
-    <Compile Include="Form1.vb">
+    <Compile Include="App.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Form1.Designer.vb">
-      <DependentUpon>Form1.vb</DependentUpon>
+    <Compile Include="App.Designer.vb">
+      <DependentUpon>App.vb</DependentUpon>
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Library.vb" />
@@ -97,8 +97,8 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Form1.resx">
-      <DependentUpon>Form1.vb</DependentUpon>
+    <EmbeddedResource Include="App.resx">
+      <DependentUpon>App.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="My Project\Resources.resx">
       <Generator>VbMyResourcesResXFileCodeGenerator</Generator>

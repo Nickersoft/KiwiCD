@@ -13,10 +13,11 @@ C:\Users\tjnic\Desktop\KiwiCD\KiwiCD\bin\Debug\KiwiCD.exe.config
 C:\Users\tjnic\Desktop\KiwiCD\KiwiCD\obj\Debug\KiwiCD.exe
 C:\Users\tjnic\Desktop\KiwiCD\KiwiCD\obj\Debug\KiwiCD.xml
 C:\Users\tjnic\Desktop\KiwiCD\KiwiCD\obj\Debug\KiwiCD.pdb
-C:\Users\tjnic\Desktop\KiwiCD\KiwiCD\obj\Debug\KiwiCD.Form1.resources
 C:\Users\tjnic\Desktop\KiwiCD\KiwiCD\obj\Debug\KiwiCD.Resources.resources
 C:\Users\tjnic\Desktop\KiwiCD\KiwiCD\obj\Debug\KiwiCD.vbproj.GenerateResource.Cache
 C:\Users\tjnic\Desktop\KiwiCD\KiwiCD\bin\Debug\content.xml
 C:\Users\tjnic\Desktop\KiwiCD\KiwiCD\bin\Debug\KiwiCD.exe
 C:\Users\tjnic\Desktop\KiwiCD\KiwiCD\bin\Debug\KiwiCD.pdb
 C:\Users\tjnic\Desktop\KiwiCD\KiwiCD\bin\Debug\KiwiCD.xml
+C:\Users\tjnic\Desktop\KiwiCD\KiwiCD\obj\Debug\KiwiCD.vbprojResolveAssemblyReference.cache
+C:\Users\tjnic\Desktop\KiwiCD\KiwiCD\obj\Debug\KiwiCD.App.resources

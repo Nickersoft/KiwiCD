@@ -32,7 +32,7 @@ Namespace My
         
         <Global.System.Diagnostics.DebuggerStepThroughAttribute()>  _
         Protected Overrides Sub OnCreateMainForm()
-            Me.MainForm = Global.KiwiCD.Form1
+            Me.MainForm = Global.KiwiCD.App
         End Sub
     End Class
 End Namespace
