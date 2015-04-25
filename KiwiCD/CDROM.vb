@@ -35,8 +35,13 @@ Public Class CDROM
         Me.artist = artist
         Me.genre = genre
         Me.key = key
-        Me.artwork = My.Resources.logo
+        Me.price = price
+        Me.artwork = My.Resources.cddvd_1196951_m
     End Sub
+
+    Public Function GetPrice() As String
+        Return price
+    End Function
 
     Public Function GetGenre() As String
         Return genre

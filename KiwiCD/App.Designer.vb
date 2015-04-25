@@ -38,7 +38,7 @@ Partial Class App
         Me.StatusStrip1 = New System.Windows.Forms.StatusStrip()
         Me.ToolStripStatusLabel2 = New System.Windows.Forms.ToolStripStatusLabel()
         Me.ToolStripStatusLabel3 = New System.Windows.Forms.ToolStripStatusLabel()
-        Me.ToolStripStatusLabel1 = New System.Windows.Forms.ToolStripStatusLabel()
+        Me.wishlistButton = New System.Windows.Forms.ToolStripStatusLabel()
         Me.Listings = New System.Windows.Forms.Panel()
         Me.listingBox = New System.Windows.Forms.ListView()
         Me.selectionButton = New System.Windows.Forms.Button()
@@ -46,8 +46,8 @@ Partial Class App
         Me.listingLabel = New System.Windows.Forms.Label()
         Me.ServiceController1 = New System.ServiceProcess.ServiceController()
         Me.Details = New System.Windows.Forms.Panel()
-        Me.Button5 = New System.Windows.Forms.Button()
-        Me.Button4 = New System.Windows.Forms.Button()
+        Me.addWishlistButton = New System.Windows.Forms.Button()
+        Me.buyButton = New System.Windows.Forms.Button()
         Me.stockLabel = New System.Windows.Forms.Label()
         Me.genreLabel = New System.Windows.Forms.Label()
         Me.artistLabel = New System.Windows.Forms.Label()
@@ -55,7 +55,15 @@ Partial Class App
         Me.Label5 = New System.Windows.Forms.Label()
         Me.Label4 = New System.Windows.Forms.Label()
         Me.artworkBox = New System.Windows.Forms.PictureBox()
+        Me.titleLabel = New System.Windows.Forms.Label()
+        Me.Wishlist = New System.Windows.Forms.Panel()
+        Me.wishlistBox = New System.Windows.Forms.ListView()
+        Me.wishlistSelectionButton = New System.Windows.Forms.Button()
         Me.Label3 = New System.Windows.Forms.Label()
+        Me.StatusStrip2 = New System.Windows.Forms.StatusStrip()
+        Me.ToolStripStatusLabel1 = New System.Windows.Forms.ToolStripStatusLabel()
+        Me.ToolStripStatusLabel4 = New System.Windows.Forms.ToolStripStatusLabel()
+        Me.ToolStripStatusLabel5 = New System.Windows.Forms.ToolStripStatusLabel()
         Me.Welcome.SuspendLayout()
         Me.Main.SuspendLayout()
         CType(Me.PictureBox2, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -63,6 +71,8 @@ Partial Class App
         Me.Listings.SuspendLayout()
         Me.Details.SuspendLayout()
         CType(Me.artworkBox, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.Wishlist.SuspendLayout()
+        Me.StatusStrip2.SuspendLayout()
         Me.SuspendLayout()
         '
         'Welcome
@@ -73,7 +83,7 @@ Partial Class App
         Me.Welcome.Controls.Add(Me.RegisterButton)
         Me.Welcome.Controls.Add(Me.TextBox4)
         Me.Welcome.Controls.Add(Me.TextBox3)
-        Me.Welcome.Location = New System.Drawing.Point(12, 12)
+        Me.Welcome.Location = New System.Drawing.Point(12, 49)
         Me.Welcome.Name = "Welcome"
         Me.Welcome.Size = New System.Drawing.Size(276, 219)
         Me.Welcome.TabIndex = 0
@@ -165,7 +175,7 @@ Partial Class App
         Me.Main.Controls.Add(Me.GenreButton)
         Me.Main.Controls.Add(Me.Label2)
         Me.Main.Controls.Add(Me.PictureBox2)
-        Me.Main.Location = New System.Drawing.Point(12, 237)
+        Me.Main.Location = New System.Drawing.Point(12, 274)
         Me.Main.Name = "Main"
         Me.Main.Size = New System.Drawing.Size(442, 251)
         Me.Main.TabIndex = 1
@@ -244,10 +254,10 @@ Partial Class App
         'StatusStrip1
         '
         Me.StatusStrip1.AutoSize = False
-        Me.StatusStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripStatusLabel2, Me.ToolStripStatusLabel3, Me.ToolStripStatusLabel1})
+        Me.StatusStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripStatusLabel2, Me.ToolStripStatusLabel3, Me.wishlistButton})
         Me.StatusStrip1.Location = New System.Drawing.Point(0, 819)
         Me.StatusStrip1.Name = "StatusStrip1"
-        Me.StatusStrip1.Size = New System.Drawing.Size(1047, 46)
+        Me.StatusStrip1.Size = New System.Drawing.Size(822, 46)
         Me.StatusStrip1.SizingGrip = False
         Me.StatusStrip1.TabIndex = 2
         Me.StatusStrip1.Text = "StatusStrip1"
@@ -266,18 +276,18 @@ Partial Class App
         '
         Me.ToolStripStatusLabel3.BackColor = System.Drawing.Color.Transparent
         Me.ToolStripStatusLabel3.Name = "ToolStripStatusLabel3"
-        Me.ToolStripStatusLabel3.Size = New System.Drawing.Size(754, 41)
+        Me.ToolStripStatusLabel3.Size = New System.Drawing.Size(529, 41)
         Me.ToolStripStatusLabel3.Spring = True
         '
-        'ToolStripStatusLabel1
+        'wishlistButton
         '
-        Me.ToolStripStatusLabel1.BackColor = System.Drawing.Color.Transparent
-        Me.ToolStripStatusLabel1.Font = New System.Drawing.Font("Segoe UI", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.ToolStripStatusLabel1.ForeColor = System.Drawing.Color.FromArgb(CType(CType(64, Byte), Integer), CType(CType(64, Byte), Integer), CType(CType(64, Byte), Integer))
-        Me.ToolStripStatusLabel1.Margin = New System.Windows.Forms.Padding(10, 3, 10, 2)
-        Me.ToolStripStatusLabel1.Name = "ToolStripStatusLabel1"
-        Me.ToolStripStatusLabel1.Size = New System.Drawing.Size(91, 41)
-        Me.ToolStripStatusLabel1.Text = "My Wishlist"
+        Me.wishlistButton.BackColor = System.Drawing.Color.Transparent
+        Me.wishlistButton.Font = New System.Drawing.Font("Segoe UI", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.wishlistButton.ForeColor = System.Drawing.Color.FromArgb(CType(CType(64, Byte), Integer), CType(CType(64, Byte), Integer), CType(CType(64, Byte), Integer))
+        Me.wishlistButton.Margin = New System.Windows.Forms.Padding(10, 3, 10, 2)
+        Me.wishlistButton.Name = "wishlistButton"
+        Me.wishlistButton.Size = New System.Drawing.Size(91, 41)
+        Me.wishlistButton.Text = "My Wishlist"
         '
         'Listings
         '
@@ -285,9 +295,9 @@ Partial Class App
         Me.Listings.Controls.Add(Me.selectionButton)
         Me.Listings.Controls.Add(Me.searchBox)
         Me.Listings.Controls.Add(Me.listingLabel)
-        Me.Listings.Location = New System.Drawing.Point(460, 289)
+        Me.Listings.Location = New System.Drawing.Point(460, 326)
         Me.Listings.Name = "Listings"
-        Me.Listings.Size = New System.Drawing.Size(548, 474)
+        Me.Listings.Size = New System.Drawing.Size(321, 211)
         Me.Listings.TabIndex = 3
         '
         'listingBox
@@ -300,10 +310,10 @@ Partial Class App
         Me.listingBox.Font = New System.Drawing.Font("Segoe UI", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.listingBox.FullRowSelect = True
         Me.listingBox.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable
-        Me.listingBox.Location = New System.Drawing.Point(14, 90)
+        Me.listingBox.Location = New System.Drawing.Point(14, 89)
         Me.listingBox.MultiSelect = False
         Me.listingBox.Name = "listingBox"
-        Me.listingBox.Size = New System.Drawing.Size(516, 311)
+        Me.listingBox.Size = New System.Drawing.Size(284, 60)
         Me.listingBox.Sorting = System.Windows.Forms.SortOrder.Ascending
         Me.listingBox.TabIndex = 10
         Me.listingBox.UseCompatibleStateImageBehavior = False
@@ -311,7 +321,8 @@ Partial Class App
         '
         'selectionButton
         '
-        Me.selectionButton.Anchor = System.Windows.Forms.AnchorStyles.Bottom
+        Me.selectionButton.Anchor = CType(((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.selectionButton.BackColor = System.Drawing.Color.FromArgb(CType(CType(36, Byte), Integer), CType(CType(166, Byte), Integer), CType(CType(91, Byte), Integer))
         Me.selectionButton.Cursor = System.Windows.Forms.Cursors.Hand
         Me.selectionButton.Enabled = False
@@ -319,10 +330,10 @@ Partial Class App
         Me.selectionButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.selectionButton.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.selectionButton.ForeColor = System.Drawing.Color.FromArgb(CType(CType(29, Byte), Integer), CType(CType(129, Byte), Integer), CType(CType(71, Byte), Integer))
-        Me.selectionButton.Location = New System.Drawing.Point(14, 411)
+        Me.selectionButton.Location = New System.Drawing.Point(14, 155)
         Me.selectionButton.Margin = New System.Windows.Forms.Padding(0)
         Me.selectionButton.Name = "selectionButton"
-        Me.selectionButton.Size = New System.Drawing.Size(516, 34)
+        Me.selectionButton.Size = New System.Drawing.Size(284, 34)
         Me.selectionButton.TabIndex = 6
         Me.selectionButton.Tag = "Click an item to select it"
         Me.selectionButton.Text = "Click an item to select it"
@@ -336,7 +347,7 @@ Partial Class App
         Me.searchBox.Font = New System.Drawing.Font("Segoe UI", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.searchBox.Location = New System.Drawing.Point(14, 54)
         Me.searchBox.Name = "searchBox"
-        Me.searchBox.Size = New System.Drawing.Size(516, 29)
+        Me.searchBox.Size = New System.Drawing.Size(284, 29)
         Me.searchBox.TabIndex = 6
         '
         'listingLabel
@@ -353,8 +364,8 @@ Partial Class App
         '
         'Details
         '
-        Me.Details.Controls.Add(Me.Button5)
-        Me.Details.Controls.Add(Me.Button4)
+        Me.Details.Controls.Add(Me.addWishlistButton)
+        Me.Details.Controls.Add(Me.buyButton)
         Me.Details.Controls.Add(Me.stockLabel)
         Me.Details.Controls.Add(Me.genreLabel)
         Me.Details.Controls.Add(Me.artistLabel)
@@ -362,43 +373,43 @@ Partial Class App
         Me.Details.Controls.Add(Me.Label5)
         Me.Details.Controls.Add(Me.Label4)
         Me.Details.Controls.Add(Me.artworkBox)
-        Me.Details.Controls.Add(Me.Label3)
-        Me.Details.Location = New System.Drawing.Point(460, 12)
+        Me.Details.Controls.Add(Me.titleLabel)
+        Me.Details.Location = New System.Drawing.Point(460, 49)
         Me.Details.Name = "Details"
         Me.Details.Size = New System.Drawing.Size(295, 271)
         Me.Details.TabIndex = 4
         '
-        'Button5
+        'addWishlistButton
         '
-        Me.Button5.Anchor = System.Windows.Forms.AnchorStyles.None
-        Me.Button5.BackColor = System.Drawing.Color.FromArgb(CType(CType(108, Byte), Integer), CType(CType(122, Byte), Integer), CType(CType(137, Byte), Integer))
-        Me.Button5.Cursor = System.Windows.Forms.Cursors.Hand
-        Me.Button5.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(CType(CType(87, Byte), Integer), CType(CType(98, Byte), Integer), CType(CType(111, Byte), Integer))
-        Me.Button5.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-        Me.Button5.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Button5.ForeColor = System.Drawing.Color.White
-        Me.Button5.Location = New System.Drawing.Point(157, 217)
-        Me.Button5.Name = "Button5"
-        Me.Button5.Size = New System.Drawing.Size(125, 34)
-        Me.Button5.TabIndex = 6
-        Me.Button5.Text = "Add to Wishlist"
-        Me.Button5.UseVisualStyleBackColor = False
+        Me.addWishlistButton.Anchor = System.Windows.Forms.AnchorStyles.None
+        Me.addWishlistButton.BackColor = System.Drawing.Color.FromArgb(CType(CType(108, Byte), Integer), CType(CType(122, Byte), Integer), CType(CType(137, Byte), Integer))
+        Me.addWishlistButton.Cursor = System.Windows.Forms.Cursors.Hand
+        Me.addWishlistButton.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(CType(CType(87, Byte), Integer), CType(CType(98, Byte), Integer), CType(CType(111, Byte), Integer))
+        Me.addWishlistButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.addWishlistButton.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.addWishlistButton.ForeColor = System.Drawing.Color.White
+        Me.addWishlistButton.Location = New System.Drawing.Point(157, 217)
+        Me.addWishlistButton.Name = "addWishlistButton"
+        Me.addWishlistButton.Size = New System.Drawing.Size(125, 34)
+        Me.addWishlistButton.TabIndex = 6
+        Me.addWishlistButton.Text = "Add to Wishlist"
+        Me.addWishlistButton.UseVisualStyleBackColor = False
         '
-        'Button4
+        'buyButton
         '
-        Me.Button4.Anchor = System.Windows.Forms.AnchorStyles.None
-        Me.Button4.BackColor = System.Drawing.Color.FromArgb(CType(CType(245, Byte), Integer), CType(CType(171, Byte), Integer), CType(CType(53, Byte), Integer))
-        Me.Button4.Cursor = System.Windows.Forms.Cursors.Hand
-        Me.Button4.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(CType(CType(221, Byte), Integer), CType(CType(142, Byte), Integer), CType(CType(11, Byte), Integer))
-        Me.Button4.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-        Me.Button4.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Button4.ForeColor = System.Drawing.Color.White
-        Me.Button4.Location = New System.Drawing.Point(22, 217)
-        Me.Button4.Name = "Button4"
-        Me.Button4.Size = New System.Drawing.Size(125, 34)
-        Me.Button4.TabIndex = 6
-        Me.Button4.Text = "Buy for {Price}"
-        Me.Button4.UseVisualStyleBackColor = False
+        Me.buyButton.Anchor = System.Windows.Forms.AnchorStyles.None
+        Me.buyButton.BackColor = System.Drawing.Color.FromArgb(CType(CType(245, Byte), Integer), CType(CType(171, Byte), Integer), CType(CType(53, Byte), Integer))
+        Me.buyButton.Cursor = System.Windows.Forms.Cursors.Hand
+        Me.buyButton.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(CType(CType(221, Byte), Integer), CType(CType(142, Byte), Integer), CType(CType(11, Byte), Integer))
+        Me.buyButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.buyButton.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.buyButton.ForeColor = System.Drawing.Color.White
+        Me.buyButton.Location = New System.Drawing.Point(22, 217)
+        Me.buyButton.Name = "buyButton"
+        Me.buyButton.Size = New System.Drawing.Size(125, 34)
+        Me.buyButton.TabIndex = 6
+        Me.buyButton.Text = "Buy for {Price}"
+        Me.buyButton.UseVisualStyleBackColor = False
         '
         'stockLabel
         '
@@ -481,6 +492,7 @@ Partial Class App
         'artworkBox
         '
         Me.artworkBox.Anchor = System.Windows.Forms.AnchorStyles.None
+        Me.artworkBox.Image = Global.KiwiCD.My.Resources.Resources.cddvd_1196951_m
         Me.artworkBox.Location = New System.Drawing.Point(22, 86)
         Me.artworkBox.Name = "artworkBox"
         Me.artworkBox.Size = New System.Drawing.Size(125, 125)
@@ -488,24 +500,127 @@ Partial Class App
         Me.artworkBox.TabIndex = 7
         Me.artworkBox.TabStop = False
         '
+        'titleLabel
+        '
+        Me.titleLabel.Anchor = CType((System.Windows.Forms.AnchorStyles.Left Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.titleLabel.Font = New System.Drawing.Font("Segoe UI Light", 21.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.titleLabel.ForeColor = System.Drawing.Color.Black
+        Me.titleLabel.Location = New System.Drawing.Point(15, 2)
+        Me.titleLabel.Name = "titleLabel"
+        Me.titleLabel.Size = New System.Drawing.Size(267, 51)
+        Me.titleLabel.TabIndex = 6
+        Me.titleLabel.Text = "{CD Title}"
+        Me.titleLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
+        '
+        'Wishlist
+        '
+        Me.Wishlist.Controls.Add(Me.wishlistBox)
+        Me.Wishlist.Controls.Add(Me.wishlistSelectionButton)
+        Me.Wishlist.Controls.Add(Me.Label3)
+        Me.Wishlist.Location = New System.Drawing.Point(12, 531)
+        Me.Wishlist.Name = "Wishlist"
+        Me.Wishlist.Size = New System.Drawing.Size(321, 211)
+        Me.Wishlist.TabIndex = 11
+        '
+        'wishlistBox
+        '
+        Me.wishlistBox.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+            Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.wishlistBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.wishlistBox.Cursor = System.Windows.Forms.Cursors.Hand
+        Me.wishlistBox.Font = New System.Drawing.Font("Segoe UI", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.wishlistBox.FullRowSelect = True
+        Me.wishlistBox.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable
+        Me.wishlistBox.Location = New System.Drawing.Point(14, 51)
+        Me.wishlistBox.MultiSelect = False
+        Me.wishlistBox.Name = "wishlistBox"
+        Me.wishlistBox.Size = New System.Drawing.Size(284, 99)
+        Me.wishlistBox.Sorting = System.Windows.Forms.SortOrder.Ascending
+        Me.wishlistBox.TabIndex = 10
+        Me.wishlistBox.UseCompatibleStateImageBehavior = False
+        Me.wishlistBox.View = System.Windows.Forms.View.Details
+        '
+        'wishlistSelectionButton
+        '
+        Me.wishlistSelectionButton.Anchor = CType(((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.wishlistSelectionButton.BackColor = System.Drawing.Color.FromArgb(CType(CType(36, Byte), Integer), CType(CType(166, Byte), Integer), CType(CType(91, Byte), Integer))
+        Me.wishlistSelectionButton.Cursor = System.Windows.Forms.Cursors.Hand
+        Me.wishlistSelectionButton.Enabled = False
+        Me.wishlistSelectionButton.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(CType(CType(29, Byte), Integer), CType(CType(129, Byte), Integer), CType(CType(71, Byte), Integer))
+        Me.wishlistSelectionButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.wishlistSelectionButton.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.wishlistSelectionButton.ForeColor = System.Drawing.Color.FromArgb(CType(CType(29, Byte), Integer), CType(CType(129, Byte), Integer), CType(CType(71, Byte), Integer))
+        Me.wishlistSelectionButton.Location = New System.Drawing.Point(14, 155)
+        Me.wishlistSelectionButton.Margin = New System.Windows.Forms.Padding(0)
+        Me.wishlistSelectionButton.Name = "wishlistSelectionButton"
+        Me.wishlistSelectionButton.Size = New System.Drawing.Size(284, 34)
+        Me.wishlistSelectionButton.TabIndex = 6
+        Me.wishlistSelectionButton.Tag = "Click an item to select it"
+        Me.wishlistSelectionButton.Text = "Click an item to select it"
+        Me.wishlistSelectionButton.UseVisualStyleBackColor = False
+        '
         'Label3
         '
-        Me.Label3.Anchor = CType((System.Windows.Forms.AnchorStyles.Left Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.Label3.Font = New System.Drawing.Font("Segoe UI Light", 21.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label3.ForeColor = System.Drawing.Color.Black
-        Me.Label3.Location = New System.Drawing.Point(15, 2)
+        Me.Label3.AutoSize = True
+        Me.Label3.Font = New System.Drawing.Font("Segoe UI Light", 20.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label3.ForeColor = System.Drawing.Color.FromArgb(CType(CType(64, Byte), Integer), CType(CType(64, Byte), Integer), CType(CType(64, Byte), Integer))
+        Me.Label3.Location = New System.Drawing.Point(7, 6)
         Me.Label3.Name = "Label3"
-        Me.Label3.Size = New System.Drawing.Size(267, 51)
-        Me.Label3.TabIndex = 6
-        Me.Label3.Text = "{CD Title}"
-        Me.Label3.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
+        Me.Label3.Size = New System.Drawing.Size(142, 37)
+        Me.Label3.TabIndex = 9
+        Me.Label3.Text = "My Wishlist"
+        Me.Label3.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        '
+        'StatusStrip2
+        '
+        Me.StatusStrip2.AutoSize = False
+        Me.StatusStrip2.BackColor = System.Drawing.Color.White
+        Me.StatusStrip2.Dock = System.Windows.Forms.DockStyle.Top
+        Me.StatusStrip2.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripStatusLabel1, Me.ToolStripStatusLabel4, Me.ToolStripStatusLabel5})
+        Me.StatusStrip2.Location = New System.Drawing.Point(0, 0)
+        Me.StatusStrip2.Name = "StatusStrip2"
+        Me.StatusStrip2.Size = New System.Drawing.Size(822, 46)
+        Me.StatusStrip2.SizingGrip = False
+        Me.StatusStrip2.TabIndex = 12
+        Me.StatusStrip2.Text = "StatusStrip2"
+        '
+        'ToolStripStatusLabel1
+        '
+        Me.ToolStripStatusLabel1.BackColor = System.Drawing.Color.Transparent
+        Me.ToolStripStatusLabel1.Font = New System.Drawing.Font("Segoe UI", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.ToolStripStatusLabel1.ForeColor = System.Drawing.Color.DimGray
+        Me.ToolStripStatusLabel1.Margin = New System.Windows.Forms.Padding(10, 3, 0, 2)
+        Me.ToolStripStatusLabel1.Name = "ToolStripStatusLabel1"
+        Me.ToolStripStatusLabel1.Size = New System.Drawing.Size(157, 41)
+        Me.ToolStripStatusLabel1.Text = "Welcome back, Guest"
+        '
+        'ToolStripStatusLabel4
+        '
+        Me.ToolStripStatusLabel4.BackColor = System.Drawing.Color.Transparent
+        Me.ToolStripStatusLabel4.Name = "ToolStripStatusLabel4"
+        Me.ToolStripStatusLabel4.Size = New System.Drawing.Size(498, 41)
+        Me.ToolStripStatusLabel4.Spring = True
+        '
+        'ToolStripStatusLabel5
+        '
+        Me.ToolStripStatusLabel5.BackColor = System.Drawing.Color.Transparent
+        Me.ToolStripStatusLabel5.Font = New System.Drawing.Font("Segoe UI", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.ToolStripStatusLabel5.ForeColor = System.Drawing.Color.FromArgb(CType(CType(64, Byte), Integer), CType(CType(64, Byte), Integer), CType(CType(64, Byte), Integer))
+        Me.ToolStripStatusLabel5.Margin = New System.Windows.Forms.Padding(10, 3, 10, 2)
+        Me.ToolStripStatusLabel5.Name = "ToolStripStatusLabel5"
+        Me.ToolStripStatusLabel5.Size = New System.Drawing.Size(91, 41)
+        Me.ToolStripStatusLabel5.Text = "My Wishlist"
         '
         'App
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.Color.White
-        Me.ClientSize = New System.Drawing.Size(1047, 865)
+        Me.ClientSize = New System.Drawing.Size(822, 865)
+        Me.Controls.Add(Me.StatusStrip2)
+        Me.Controls.Add(Me.Wishlist)
         Me.Controls.Add(Me.Details)
         Me.Controls.Add(Me.Listings)
         Me.Controls.Add(Me.StatusStrip1)
@@ -525,6 +640,10 @@ Partial Class App
         Me.Details.ResumeLayout(False)
         Me.Details.PerformLayout()
         CType(Me.artworkBox, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.Wishlist.ResumeLayout(False)
+        Me.Wishlist.PerformLayout()
+        Me.StatusStrip2.ResumeLayout(False)
+        Me.StatusStrip2.PerformLayout()
         Me.ResumeLayout(False)
 
     End Sub
@@ -549,7 +668,7 @@ Partial Class App
     Friend WithEvents GenreButton As System.Windows.Forms.Button
     Friend WithEvents StatusStrip1 As System.Windows.Forms.StatusStrip
     Friend WithEvents ToolStripStatusLabel2 As System.Windows.Forms.ToolStripStatusLabel
-    Friend WithEvents ToolStripStatusLabel1 As System.Windows.Forms.ToolStripStatusLabel
+    Friend WithEvents wishlistButton As System.Windows.Forms.ToolStripStatusLabel
     Friend WithEvents ToolStripStatusLabel3 As System.Windows.Forms.ToolStripStatusLabel
     Friend WithEvents Listings As System.Windows.Forms.Panel
     Friend WithEvents listingLabel As System.Windows.Forms.Label
@@ -560,13 +679,21 @@ Partial Class App
     Friend WithEvents Label5 As System.Windows.Forms.Label
     Friend WithEvents Label4 As System.Windows.Forms.Label
     Friend WithEvents artworkBox As System.Windows.Forms.PictureBox
-    Friend WithEvents Label3 As System.Windows.Forms.Label
+    Friend WithEvents titleLabel As System.Windows.Forms.Label
     Friend WithEvents Label6 As System.Windows.Forms.Label
-    Friend WithEvents Button5 As System.Windows.Forms.Button
-    Friend WithEvents Button4 As System.Windows.Forms.Button
+    Friend WithEvents addWishlistButton As System.Windows.Forms.Button
+    Friend WithEvents buyButton As System.Windows.Forms.Button
     Friend WithEvents stockLabel As System.Windows.Forms.Label
     Friend WithEvents genreLabel As System.Windows.Forms.Label
     Friend WithEvents artistLabel As System.Windows.Forms.Label
     Friend WithEvents listingBox As System.Windows.Forms.ListView
+    Friend WithEvents Wishlist As System.Windows.Forms.Panel
+    Friend WithEvents wishlistBox As System.Windows.Forms.ListView
+    Friend WithEvents wishlistSelectionButton As System.Windows.Forms.Button
+    Friend WithEvents Label3 As System.Windows.Forms.Label
+    Friend WithEvents StatusStrip2 As System.Windows.Forms.StatusStrip
+    Friend WithEvents ToolStripStatusLabel1 As System.Windows.Forms.ToolStripStatusLabel
+    Friend WithEvents ToolStripStatusLabel4 As System.Windows.Forms.ToolStripStatusLabel
+    Friend WithEvents ToolStripStatusLabel5 As System.Windows.Forms.ToolStripStatusLabel
 
 End Class

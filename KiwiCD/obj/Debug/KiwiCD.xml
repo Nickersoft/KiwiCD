@@ -15,6 +15,10 @@ KiwiCD
   Overrides the current thread's CurrentUICulture property for all
   resource lookups using this strongly typed resource class.
 </summary>
+</member><member name="P:KiwiCD.My.Resources.Resources.cddvd_1196951_m">
+	<summary>
+  Looks up a localized resource of type System.Drawing.Bitmap.
+</summary>
 </member><member name="P:KiwiCD.My.Resources.Resources.logo">
 	<summary>
   Looks up a localized resource of type System.Drawing.Bitmap.

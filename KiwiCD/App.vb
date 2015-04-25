@@ -7,6 +7,7 @@ Public Class App
     Dim listContents As New List(Of ListViewItem)
     Dim selectFormat As String
     Dim currentListing As Integer
+    Dim activeCD As CDROM = Nothing
 
     Private Const listingFormat As String = "Showing All {0}"
     Private Const defaultSelectTag As String = "Click an item to select it"
@@ -57,17 +58,20 @@ Public Class App
 
     Private Sub resetHeaders()
         listingBox.Columns.Clear()
+        wishlistBox.Columns.Clear()
+
         listingBox.Columns.Insert(0, "title", "Title", 200)
         listingBox.Columns.Insert(1, "artist", "Artist", 200)
         listingBox.Columns.Insert(2, "genre", "Genre", 200)
+
+        wishlistBox.Columns.Insert(0, "title", "Title", 200)
+        wishlistBox.Columns.Insert(1, "artist", "Artist", 200)
+        wishlistBox.Columns.Insert(2, "genre", "Genre", 200)
     End Sub
 
     Private Sub Form1_Shown(sender As Object, e As EventArgs) Handles MyBase.Shown
         StatusStrip1.Hide()
         showPane(Welcome)
-
-
-
     End Sub
 
     Private Sub GuestButton_Click(sender As Object, e As EventArgs) Handles GuestButton.Click
@@ -77,11 +81,14 @@ Public Class App
 
     Private Sub ShowAlbumDetails(ByVal cd As CDROM)
         listingBox.Hide()
-        Label3.Text = cd.GetTitle()
+        titleLabel.Text = cd.GetTitle()
         artistLabel.Text = cd.GetArtist()
         genreLabel.Text = cd.GetGenre()
         stockLabel.Text = cd.GetCount()
         artworkBox.Image = cd.GetArtwork()
+        buyButton.Text = "Buy for $" & cd.GetPrice()
+        buyButton.Tag = cd.GetPrice()
+        activeCD = cd
         showPane(Details)
     End Sub
 
@@ -109,6 +116,9 @@ Public Class App
         listingBox.Items.Clear()
         listContents.Clear()
         resetHeaders()
+        selectionButton.Tag = defaultSelectTag
+        selectionButton.Enabled = False
+        selectionButton.Refresh()
         Dim listing As New List(Of String)
         Dim listingTitle As String = ""
         Select Case category
@@ -147,8 +157,12 @@ Public Class App
         If listingBox.SelectedItems.Count > 0 Then
             selectionButton.Tag = String.Format(selectFormat, listingBox.SelectedItems(0).Text)
             selectionButton.Enabled = True
-            selectionButton.Refresh()
+        Else
+            selectionButton.Tag = defaultSelectTag
+            selectionButton.Enabled = False
         End If
+
+        selectionButton.Refresh()
     End Sub
 
     Private Sub searchBox_TextChanged(sender As Object, e As EventArgs) Handles searchBox.TextChanged
@@ -175,7 +189,7 @@ Public Class App
         End If
     End Sub
 
-    Private Sub selectionButton_Paint(sender As Object, e As PaintEventArgs) Handles selectionButton.Paint
+    Private Sub selectionButton_Paint(sender As Object, e As PaintEventArgs) Handles selectionButton.Paint, wishlistSelectionButton.Paint
         Dim btn As Button = CType(sender, Button)
         Dim brush As New SolidBrush(btn.ForeColor)
         Dim sf As New StringFormat() With
@@ -185,12 +199,13 @@ Public Class App
             }
 
         selectionButton.Text = String.Empty
-        e.Graphics.DrawString(selectionButton.Tag, btn.Font, brush, e.ClipRectangle, sf)
+        wishlistSelectionButton.Text = String.Empty
+        e.Graphics.DrawString(btn.Tag, btn.Font, brush, e.ClipRectangle, sf)
         brush.Dispose()
         sf.Dispose()
     End Sub
 
-    Private Sub selectionButton_EnabledChanged(sender As Object, e As EventArgs) Handles selectionButton.EnabledChanged
+    Private Sub selectionButton_EnabledChanged(sender As Object, e As EventArgs) Handles selectionButton.EnabledChanged, wishlistSelectionButton.EnabledChanged
         Dim btn = CType(sender, Button)
         If btn.Enabled Then
             btn.ForeColor = Color.White
@@ -204,7 +219,7 @@ Public Class App
     End Sub
 
     Private Sub selectionButton_Click(sender As Object, e As EventArgs) Handles selectionButton.Click
-        If (listingBox.SelectedItems(0) IsNot Nothing) Then
+        If listingBox.SelectedItems.Count > 0 Then
             Dim newListing As New Library
             Dim selectedCD = False
             Select Case currentListing
@@ -229,4 +244,57 @@ Public Class App
     Private Sub TitleButton_Click(sender As Object, e As EventArgs) Handles TitleButton.Click
         ShowAlbums(library.All())
     End Sub
+
+    Private Sub BuyButton_Click(sender As Object, e As EventArgs) Handles buyButton.Click
+        Dim result As DialogResult
+        result = MessageBox.Show(String.Format("Are you sure you would like to reserve {0} for purchase? ", titleLabel.Text), "Are You Sure?", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
+        If result = vbYes Then
+            MessageBox.Show(String.Format("You have just requested {0} for purchase. Your total will be ${1}." & vbCrLf & vbCrLf & "Please see the front desk to pay.", titleLabel.Text, buyButton.Tag.ToString()), "Purchase Confirmed", MessageBoxButtons.OK, MessageBoxIcon.None)
+        End If
+    End Sub
+
+    Private Sub addWishlistButton_Click(sender As Object, e As EventArgs) Handles addWishlistButton.Click
+        If activeCD IsNot Nothing Then
+            Dim item As New ListViewItem(activeCD.GetTitle())
+            item.SubItems.Add(activeCD.GetArtist())
+            item.SubItems.Add(activeCD.GetGenre())
+            item.Tag = activeCD.GetKey()
+            wishlistBox.Items.Add(item)
+            MessageBox.Show("Item added to wishlist! You can view your wishlist by clicking the text in the lower right hand corner of the screen.", "Added to Wishlist")
+        End If
+    End Sub
+
+    Private Sub wishlistButton_Click_1(sender As Object, e As EventArgs) Handles wishlistButton.Click
+        showPane(Wishlist)
+    End Sub
+
+    Private Sub wishlistBox_SelectedIndexChanged(sender As Object, e As EventArgs) Handles wishlistBox.SelectedIndexChanged
+        If wishlistBox.SelectedItems.Count > 0 Then
+            wishlistSelectionButton.Tag = String.Format(selectFormat, listingBox.SelectedItems(0).Text)
+            wishlistSelectionButton.Enabled = True
+        Else
+            wishlistSelectionButton.Tag = defaultSelectTag
+            wishlistSelectionButton.Enabled = False
+        End If
+        wishlistSelectionButton.Refresh()
+    End Sub
+
+    Private Sub wishlistSelectionButton_Click(sender As Object, e As EventArgs) Handles wishlistSelectionButton.Click
+        If wishlistBox.SelectedItems.Count > 0 Then
+            ShowAlbumDetails(library.GetCD(wishlistBox.SelectedItems(0).Tag.ToString()))
+        End If
+    End Sub
+
+    Private Sub wishlistBox_KeyDown(sender As Object, e As KeyEventArgs) Handles wishlistBox.KeyDown
+        If (e.KeyCode = Keys.Delete) Then
+            If wishlistBox.SelectedItems(0) IsNot Nothing Then
+                wishlistBox.Items.RemoveAt(wishlistBox.SelectedIndices(0))
+                If wishlistBox.Items.Count = 0 Then
+                    wishlistSelectionButton.Tag = defaultSelectTag
+                    wishlistSelectionButton.Enabled = False
+                End If
+            End If
+        End If
+    End Sub
+
 End Class

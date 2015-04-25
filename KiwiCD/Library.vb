@@ -51,10 +51,10 @@
         Return contents.Count
     End Function
 
-    Public Function GetCD(ByVal key As Integer) As CDROM
+    Public Function GetCD(ByVal key As String) As CDROM
         Dim found As CDROM = Nothing
         For Each cd In contents
-            If cd.GetKey() = key Then
+            If cd.GetKey() = Integer.Parse(key) Then
                 found = cd
             End If
         Next
