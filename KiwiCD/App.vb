@@ -8,7 +8,7 @@ Public Class App
     Dim selectFormat As String
     Dim currentListing As Integer
     Dim activeCD As CDROM = Nothing
-    Dim lastPanel As New Panel
+    Dim panels As New List(Of Panel)
 
     Private Const listingFormat As String = "Showing All {0}"
     Private Const defaultSelectTag As String = "Click an item to select it"
@@ -50,11 +50,16 @@ Public Class App
     Private Sub showPane(p As Panel)
         For Each c As Control In Me.contentPanel.Controls
             If TypeOf c Is Panel Then
-                c.Hide()
+                c.Visible = False
             End If
         Next
         p.Dock = DockStyle.Fill
-        p.Show()
+        p.Visible = True
+        panels.Add(p)
+        For i = 0 To panels.Count - 1
+            Console.Write(panels(i).Name & vbCrLf)
+        Next
+        Console.Write("-----" & vbCrLf)
     End Sub
 
     Private Sub resetHeaders()
@@ -71,18 +76,18 @@ Public Class App
     End Sub
 
     Private Sub Form1_Shown(sender As Object, e As EventArgs) Handles MyBase.Shown
-        StatusStrip1.Hide()
+        BottomBar.Hide()
         showPane(Welcome)
     End Sub
 
     Private Sub GuestButton_Click(sender As Object, e As EventArgs) Handles GuestButton.Click
         showPane(Main)
-        StatusStrip1.Show()
-        StatusStrip2.Show()
+        BottomBar.Show()
+        TopBar.Show()
     End Sub
 
     Private Sub ShowAlbumDetails(ByVal cd As CDROM)
-        listingBox.Hide()
+        Listings.Hide()
         titleLabel.Text = cd.GetTitle()
         artistLabel.Text = cd.GetArtist()
         genreLabel.Text = cd.GetGenre()
@@ -111,7 +116,9 @@ Public Class App
             listContents.Add(item)
         Next
         currentListing = TITLE
-        showPane(Listings)
+        If Listings.Visible = False Then
+            showPane(Listings)
+        End If
     End Sub
 
     Private Sub ShowCategory(ByVal category As Integer)
@@ -304,6 +311,17 @@ Public Class App
     End Sub
 
     Private Sub backButton_ButtonClick(sender As Object, e As EventArgs) Handles backButton.ButtonClick
+        Dim lastPanel As Panel = panels(panels.Count - 2)
+        panels.RemoveRange(panels.Count - 2, 2)
         showPane(lastPanel)
+    End Sub
+
+    Private Sub RegisterButton_Click(sender As Object, e As EventArgs) Handles RegisterButton.Click
+        Dim r As New Register()
+        r.ShowDialog()
+    End Sub
+
+    Private Sub logoutButton_ButtonClick(sender As Object, e As EventArgs) Handles logoutButton.ButtonClick
+        TopBar.Hide()
     End Sub
 End Class

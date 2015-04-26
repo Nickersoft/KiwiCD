@@ -21,3 +21,4 @@ C:\Users\tjnic\Desktop\KiwiCD\KiwiCD\bin\Debug\KiwiCD.pdb
 C:\Users\tjnic\Desktop\KiwiCD\KiwiCD\bin\Debug\KiwiCD.xml
 C:\Users\tjnic\Desktop\KiwiCD\KiwiCD\obj\Debug\KiwiCD.vbprojResolveAssemblyReference.cache
 C:\Users\tjnic\Desktop\KiwiCD\KiwiCD\obj\Debug\KiwiCD.App.resources
+C:\Users\tjnic\Desktop\KiwiCD\KiwiCD\obj\Debug\KiwiCD.Register.resources
