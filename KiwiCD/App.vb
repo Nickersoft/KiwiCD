@@ -9,6 +9,7 @@ Public Class App
     Dim currentListing As Integer
     Dim activeCD As CDROM = Nothing
     Dim panels As New List(Of Panel)
+    Dim username As String = "Guest"
 
     Private Const listingFormat As String = "Showing All {0}"
     Private Const defaultSelectTag As String = "Click an item to select it"
@@ -48,6 +49,7 @@ Public Class App
     End Sub
 
     Private Sub showPane(p As Panel)
+        welcomeLabel.Text = "Welcome back, " & username
         For Each c As Control In Me.contentPanel.Controls
             If TypeOf c Is Panel Then
                 c.Visible = False
@@ -56,10 +58,11 @@ Public Class App
         p.Dock = DockStyle.Fill
         p.Visible = True
         panels.Add(p)
-        For i = 0 To panels.Count - 1
-            Console.Write(panels(i).Name & vbCrLf)
-        Next
-        Console.Write("-----" & vbCrLf)
+        If panels.Count <= 2 Then
+            backButton.Enabled = False
+        Else
+            backButton.Enabled = True
+        End If
     End Sub
 
     Private Sub resetHeaders()
@@ -76,14 +79,24 @@ Public Class App
     End Sub
 
     Private Sub Form1_Shown(sender As Object, e As EventArgs) Handles MyBase.Shown
+        For Each p As Control In contentPanel.Controls
+            If TypeOf p Is Panel Then
+                For Each c As Control In p.Controls
+                    If TypeOf c Is TextBox Then
+                        c.Text = c.Tag.ToString()
+                        c.ForeColor = Color.DarkGray
+                    End If
+                Next
+            End If
+        Next
         BottomBar.Hide()
         showPane(Welcome)
     End Sub
 
     Private Sub GuestButton_Click(sender As Object, e As EventArgs) Handles GuestButton.Click
         showPane(Main)
-        BottomBar.Show()
-        TopBar.Show()
+        BottomBar.Visible = True
+        TopBar.Visible = True
     End Sub
 
     Private Sub ShowAlbumDetails(ByVal cd As CDROM)
@@ -174,7 +187,7 @@ Public Class App
         selectionButton.Refresh()
     End Sub
 
-    Private Sub searchBox_TextChanged(sender As Object, e As EventArgs) Handles searchBox.TextChanged
+    Private Sub searchBox_TextChanged(sender As Object, e As EventArgs)
         If searchBox.Text.Trim().Length = 0 Then
             listingBox.Items.Clear()
             listingBox.Items.AddRange(listContents.ToArray())
@@ -308,12 +321,16 @@ Public Class App
 
     Private Sub logoutButton_Click(sender As Object, e As EventArgs) Handles logoutButton.Click
         showPane(Welcome)
+        TopBar.Visible = False
+        BottomBar.Visible = False
     End Sub
 
     Private Sub backButton_ButtonClick(sender As Object, e As EventArgs) Handles backButton.ButtonClick
-        Dim lastPanel As Panel = panels(panels.Count - 2)
-        panels.RemoveRange(panels.Count - 2, 2)
-        showPane(lastPanel)
+        If panels.Count > 2 Then
+            Dim lastPanel As Panel = panels(panels.Count - 2)
+            panels.RemoveRange(panels.Count - 2, 2)
+            showPane(lastPanel)
+            End If
     End Sub
 
     Private Sub RegisterButton_Click(sender As Object, e As EventArgs) Handles RegisterButton.Click
@@ -321,7 +338,49 @@ Public Class App
         r.ShowDialog()
     End Sub
 
-    Private Sub logoutButton_ButtonClick(sender As Object, e As EventArgs) Handles logoutButton.ButtonClick
-        TopBar.Hide()
+    Private Sub Login()
+        If usernameTextbox.Text.Trim().Count = 0 OrElse passwordTextbox.Text.Trim().Count = 0 Then
+            MessageBox.Show("Please enter a username and password to continue.", "Enter Your Credentials", MessageBoxButtons.OK, MessageBoxIcon.Asterisk)
+        Else
+            If usernameTextbox.Text.Trim().ToLower() = My.Settings.username.Trim().ToLower() AndAlso _
+               passwordTextbox.Text = My.Settings.password Then
+                username = My.Settings.username
+                showPane(Main)
+                TopBar.Visible = True
+                BottomBar.Visible = True
+            Else
+                MessageBox.Show("Incorrect username or password. Either try again, register for an account, or continue as a guest.", "Login Failed", MessageBoxButtons.OK, MessageBoxIcon.Stop)
+            End If
+        End If
+    End Sub
+
+    Private Sub LoginButton_Click(sender As Object, e As EventArgs) Handles LoginButton.Click
+        Login()
+    End Sub
+
+    Private Sub EnterTextbox(sender As Object, e As EventArgs) Handles usernameTextbox.Enter, searchBox.Enter, passwordTextbox.Enter
+        Dim txt As TextBox = CType(sender, TextBox)
+        If txt.ForeColor = Color.DarkGray Then
+            txt.Clear()
+            txt.ForeColor = Color.Black
+            If txt.Tag.ToString().ToLower().Trim().Contains("password") Then
+                txt.UseSystemPasswordChar = True
+            End If
+        End If
+    End Sub
+
+    Private Sub LeaveTextbox(sender As Object, e As EventArgs) Handles usernameTextbox.Leave, searchBox.Leave, passwordTextbox.Leave
+        Dim txt As TextBox = CType(sender, TextBox)
+        If txt.Text.Trim().Count = 0 Then
+            txt.Text = txt.Tag.ToString()
+            txt.ForeColor = Color.DarkGray
+            txt.UseSystemPasswordChar = False
+        End If
+    End Sub
+
+    Private Sub usernameTextbox_KeyUp(sender As Object, e As KeyEventArgs) Handles usernameTextbox.KeyUp, passwordTextbox.KeyUp
+        If e.KeyCode = Keys.Enter Then
+            Login()
+        End If
     End Sub
 End Class

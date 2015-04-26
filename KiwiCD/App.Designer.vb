@@ -28,16 +28,18 @@ Partial Class App
         Me.GuestButton = New System.Windows.Forms.Button()
         Me.LoginButton = New System.Windows.Forms.Button()
         Me.RegisterButton = New System.Windows.Forms.Button()
-        Me.TextBox4 = New System.Windows.Forms.TextBox()
-        Me.TextBox3 = New System.Windows.Forms.TextBox()
+        Me.passwordTextbox = New System.Windows.Forms.TextBox()
+        Me.usernameTextbox = New System.Windows.Forms.TextBox()
         Me.Main = New System.Windows.Forms.Panel()
         Me.TitleButton = New System.Windows.Forms.Button()
         Me.ArtistButton = New System.Windows.Forms.Button()
         Me.GenreButton = New System.Windows.Forms.Button()
         Me.Label2 = New System.Windows.Forms.Label()
+        Me.PictureBox2 = New System.Windows.Forms.PictureBox()
         Me.BottomBar = New System.Windows.Forms.StatusStrip()
-        Me.ToolStripStatusLabel2 = New System.Windows.Forms.ToolStripStatusLabel()
+        Me.welcomeLabel = New System.Windows.Forms.ToolStripStatusLabel()
         Me.ToolStripStatusLabel3 = New System.Windows.Forms.ToolStripStatusLabel()
+        Me.wishlistButton = New System.Windows.Forms.ToolStripSplitButton()
         Me.Listings = New System.Windows.Forms.Panel()
         Me.listingBox = New System.Windows.Forms.ListView()
         Me.selectionButton = New System.Windows.Forms.Button()
@@ -52,29 +54,27 @@ Partial Class App
         Me.Label6 = New System.Windows.Forms.Label()
         Me.Label5 = New System.Windows.Forms.Label()
         Me.Label4 = New System.Windows.Forms.Label()
+        Me.artworkBox = New System.Windows.Forms.PictureBox()
         Me.titleLabel = New System.Windows.Forms.Label()
         Me.Wishlist = New System.Windows.Forms.Panel()
         Me.wishlistBox = New System.Windows.Forms.ListView()
         Me.wishlistSelectionButton = New System.Windows.Forms.Button()
         Me.Label3 = New System.Windows.Forms.Label()
         Me.TopBar = New System.Windows.Forms.StatusStrip()
-        Me.ToolStripStatusLabel4 = New System.Windows.Forms.ToolStripStatusLabel()
-        Me.contentPanel = New System.Windows.Forms.Panel()
-        Me.artworkBox = New System.Windows.Forms.PictureBox()
-        Me.PictureBox2 = New System.Windows.Forms.PictureBox()
         Me.backButton = New System.Windows.Forms.ToolStripSplitButton()
+        Me.ToolStripStatusLabel4 = New System.Windows.Forms.ToolStripStatusLabel()
         Me.logoutButton = New System.Windows.Forms.ToolStripSplitButton()
-        Me.wishlistButton = New System.Windows.Forms.ToolStripSplitButton()
+        Me.contentPanel = New System.Windows.Forms.Panel()
         Me.Welcome.SuspendLayout()
         Me.Main.SuspendLayout()
+        CType(Me.PictureBox2, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.BottomBar.SuspendLayout()
         Me.Listings.SuspendLayout()
         Me.Details.SuspendLayout()
+        CType(Me.artworkBox, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.Wishlist.SuspendLayout()
         Me.TopBar.SuspendLayout()
         Me.contentPanel.SuspendLayout()
-        CType(Me.artworkBox, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.PictureBox2, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'Welcome
@@ -83,8 +83,8 @@ Partial Class App
         Me.Welcome.Controls.Add(Me.GuestButton)
         Me.Welcome.Controls.Add(Me.LoginButton)
         Me.Welcome.Controls.Add(Me.RegisterButton)
-        Me.Welcome.Controls.Add(Me.TextBox4)
-        Me.Welcome.Controls.Add(Me.TextBox3)
+        Me.Welcome.Controls.Add(Me.passwordTextbox)
+        Me.Welcome.Controls.Add(Me.usernameTextbox)
         Me.Welcome.Location = New System.Drawing.Point(534, 311)
         Me.Welcome.Name = "Welcome"
         Me.Welcome.Size = New System.Drawing.Size(276, 219)
@@ -98,7 +98,7 @@ Partial Class App
         Me.Label1.Location = New System.Drawing.Point(15, 7)
         Me.Label1.Name = "Label1"
         Me.Label1.Size = New System.Drawing.Size(248, 52)
-        Me.Label1.TabIndex = 5
+        Me.Label1.TabIndex = 0
         Me.Label1.Text = "Welcome"
         Me.Label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
         '
@@ -146,29 +146,33 @@ Partial Class App
         Me.RegisterButton.Location = New System.Drawing.Point(15, 137)
         Me.RegisterButton.Name = "RegisterButton"
         Me.RegisterButton.Size = New System.Drawing.Size(121, 34)
-        Me.RegisterButton.TabIndex = 2
+        Me.RegisterButton.TabIndex = 0
         Me.RegisterButton.Text = "Register"
         Me.RegisterButton.UseVisualStyleBackColor = False
         '
-        'TextBox4
+        'passwordTextbox
         '
-        Me.TextBox4.Anchor = System.Windows.Forms.AnchorStyles.None
-        Me.TextBox4.BackColor = System.Drawing.Color.WhiteSmoke
-        Me.TextBox4.Font = New System.Drawing.Font("Segoe UI", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.TextBox4.Location = New System.Drawing.Point(15, 97)
-        Me.TextBox4.Name = "TextBox4"
-        Me.TextBox4.Size = New System.Drawing.Size(248, 29)
-        Me.TextBox4.TabIndex = 1
+        Me.passwordTextbox.Anchor = System.Windows.Forms.AnchorStyles.None
+        Me.passwordTextbox.BackColor = System.Drawing.Color.WhiteSmoke
+        Me.passwordTextbox.Font = New System.Drawing.Font("Segoe UI", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.passwordTextbox.ForeColor = System.Drawing.Color.DarkGray
+        Me.passwordTextbox.Location = New System.Drawing.Point(15, 97)
+        Me.passwordTextbox.Name = "passwordTextbox"
+        Me.passwordTextbox.Size = New System.Drawing.Size(248, 29)
+        Me.passwordTextbox.TabIndex = 2
+        Me.passwordTextbox.Tag = "Password"
         '
-        'TextBox3
+        'usernameTextbox
         '
-        Me.TextBox3.Anchor = System.Windows.Forms.AnchorStyles.None
-        Me.TextBox3.BackColor = System.Drawing.Color.WhiteSmoke
-        Me.TextBox3.Font = New System.Drawing.Font("Segoe UI", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.TextBox3.Location = New System.Drawing.Point(15, 62)
-        Me.TextBox3.Name = "TextBox3"
-        Me.TextBox3.Size = New System.Drawing.Size(248, 29)
-        Me.TextBox3.TabIndex = 0
+        Me.usernameTextbox.Anchor = System.Windows.Forms.AnchorStyles.None
+        Me.usernameTextbox.BackColor = System.Drawing.Color.WhiteSmoke
+        Me.usernameTextbox.Font = New System.Drawing.Font("Segoe UI", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.usernameTextbox.ForeColor = System.Drawing.Color.DarkGray
+        Me.usernameTextbox.Location = New System.Drawing.Point(15, 62)
+        Me.usernameTextbox.Name = "usernameTextbox"
+        Me.usernameTextbox.Size = New System.Drawing.Size(248, 29)
+        Me.usernameTextbox.TabIndex = 1
+        Me.usernameTextbox.Tag = "Username"
         '
         'Main
         '
@@ -242,10 +246,21 @@ Partial Class App
         Me.Label2.Text = "How would you like to browse?"
         Me.Label2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
         '
+        'PictureBox2
+        '
+        Me.PictureBox2.Anchor = System.Windows.Forms.AnchorStyles.None
+        Me.PictureBox2.Image = Global.KiwiCD.My.Resources.Resources.logo
+        Me.PictureBox2.Location = New System.Drawing.Point(52, 14)
+        Me.PictureBox2.Name = "PictureBox2"
+        Me.PictureBox2.Size = New System.Drawing.Size(375, 112)
+        Me.PictureBox2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom
+        Me.PictureBox2.TabIndex = 0
+        Me.PictureBox2.TabStop = False
+        '
         'BottomBar
         '
         Me.BottomBar.AutoSize = False
-        Me.BottomBar.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripStatusLabel2, Me.ToolStripStatusLabel3, Me.wishlistButton})
+        Me.BottomBar.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.welcomeLabel, Me.ToolStripStatusLabel3, Me.wishlistButton})
         Me.BottomBar.Location = New System.Drawing.Point(0, 793)
         Me.BottomBar.Name = "BottomBar"
         Me.BottomBar.Size = New System.Drawing.Size(861, 46)
@@ -253,22 +268,34 @@ Partial Class App
         Me.BottomBar.TabIndex = 2
         Me.BottomBar.Text = "BottomBar"
         '
-        'ToolStripStatusLabel2
+        'welcomeLabel
         '
-        Me.ToolStripStatusLabel2.BackColor = System.Drawing.Color.Transparent
-        Me.ToolStripStatusLabel2.Font = New System.Drawing.Font("Segoe UI", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.ToolStripStatusLabel2.ForeColor = System.Drawing.Color.DimGray
-        Me.ToolStripStatusLabel2.Margin = New System.Windows.Forms.Padding(10, 3, 0, 2)
-        Me.ToolStripStatusLabel2.Name = "ToolStripStatusLabel2"
-        Me.ToolStripStatusLabel2.Size = New System.Drawing.Size(157, 41)
-        Me.ToolStripStatusLabel2.Text = "Welcome back, Guest"
+        Me.welcomeLabel.BackColor = System.Drawing.Color.Transparent
+        Me.welcomeLabel.Font = New System.Drawing.Font("Segoe UI", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.welcomeLabel.ForeColor = System.Drawing.Color.DimGray
+        Me.welcomeLabel.Margin = New System.Windows.Forms.Padding(10, 3, 0, 2)
+        Me.welcomeLabel.Name = "welcomeLabel"
+        Me.welcomeLabel.Size = New System.Drawing.Size(157, 41)
+        Me.welcomeLabel.Text = "Welcome back, Guest"
         '
         'ToolStripStatusLabel3
         '
         Me.ToolStripStatusLabel3.BackColor = System.Drawing.Color.Transparent
         Me.ToolStripStatusLabel3.Name = "ToolStripStatusLabel3"
-        Me.ToolStripStatusLabel3.Size = New System.Drawing.Size(548, 41)
+        Me.ToolStripStatusLabel3.Size = New System.Drawing.Size(579, 41)
         Me.ToolStripStatusLabel3.Spring = True
+        '
+        'wishlistButton
+        '
+        Me.wishlistButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text
+        Me.wishlistButton.DropDownButtonWidth = 0
+        Me.wishlistButton.Font = New System.Drawing.Font("Segoe UI", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.wishlistButton.ForeColor = System.Drawing.Color.FromArgb(CType(CType(64, Byte), Integer), CType(CType(64, Byte), Integer), CType(CType(64, Byte), Integer))
+        Me.wishlistButton.Image = CType(resources.GetObject("wishlistButton.Image"), System.Drawing.Image)
+        Me.wishlistButton.ImageTransparentColor = System.Drawing.Color.Magenta
+        Me.wishlistButton.Name = "wishlistButton"
+        Me.wishlistButton.Size = New System.Drawing.Size(100, 44)
+        Me.wishlistButton.Text = " My Wishlist"
         '
         'Listings
         '
@@ -326,10 +353,12 @@ Partial Class App
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.searchBox.BackColor = System.Drawing.Color.WhiteSmoke
         Me.searchBox.Font = New System.Drawing.Font("Segoe UI", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.searchBox.ForeColor = System.Drawing.Color.Black
         Me.searchBox.Location = New System.Drawing.Point(14, 54)
         Me.searchBox.Name = "searchBox"
         Me.searchBox.Size = New System.Drawing.Size(284, 29)
         Me.searchBox.TabIndex = 6
+        Me.searchBox.Tag = "Search"
         '
         'listingLabel
         '
@@ -470,6 +499,17 @@ Partial Class App
         Me.Label4.Text = "Artist:"
         Me.Label4.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
         '
+        'artworkBox
+        '
+        Me.artworkBox.Anchor = System.Windows.Forms.AnchorStyles.None
+        Me.artworkBox.Image = Global.KiwiCD.My.Resources.Resources.cddvd_1196951_m
+        Me.artworkBox.Location = New System.Drawing.Point(22, 86)
+        Me.artworkBox.Name = "artworkBox"
+        Me.artworkBox.Size = New System.Drawing.Size(125, 125)
+        Me.artworkBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom
+        Me.artworkBox.TabIndex = 7
+        Me.artworkBox.TabStop = False
+        '
         'titleLabel
         '
         Me.titleLabel.Anchor = CType((System.Windows.Forms.AnchorStyles.Left Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
@@ -557,48 +597,6 @@ Partial Class App
         Me.TopBar.Text = "TopBar"
         Me.TopBar.Visible = False
         '
-        'ToolStripStatusLabel4
-        '
-        Me.ToolStripStatusLabel4.BackColor = System.Drawing.Color.Transparent
-        Me.ToolStripStatusLabel4.Name = "ToolStripStatusLabel4"
-        Me.ToolStripStatusLabel4.Size = New System.Drawing.Size(715, 41)
-        Me.ToolStripStatusLabel4.Spring = True
-        '
-        'contentPanel
-        '
-        Me.contentPanel.Controls.Add(Me.Details)
-        Me.contentPanel.Controls.Add(Me.Main)
-        Me.contentPanel.Controls.Add(Me.Listings)
-        Me.contentPanel.Controls.Add(Me.Wishlist)
-        Me.contentPanel.Controls.Add(Me.Welcome)
-        Me.contentPanel.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.contentPanel.Location = New System.Drawing.Point(0, 0)
-        Me.contentPanel.Name = "contentPanel"
-        Me.contentPanel.Size = New System.Drawing.Size(861, 793)
-        Me.contentPanel.TabIndex = 13
-        '
-        'artworkBox
-        '
-        Me.artworkBox.Anchor = System.Windows.Forms.AnchorStyles.None
-        Me.artworkBox.Image = Global.KiwiCD.My.Resources.Resources.cddvd_1196951_m
-        Me.artworkBox.Location = New System.Drawing.Point(22, 86)
-        Me.artworkBox.Name = "artworkBox"
-        Me.artworkBox.Size = New System.Drawing.Size(125, 125)
-        Me.artworkBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom
-        Me.artworkBox.TabIndex = 7
-        Me.artworkBox.TabStop = False
-        '
-        'PictureBox2
-        '
-        Me.PictureBox2.Anchor = System.Windows.Forms.AnchorStyles.None
-        Me.PictureBox2.Image = Global.KiwiCD.My.Resources.Resources.logo
-        Me.PictureBox2.Location = New System.Drawing.Point(52, 14)
-        Me.PictureBox2.Name = "PictureBox2"
-        Me.PictureBox2.Size = New System.Drawing.Size(375, 112)
-        Me.PictureBox2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom
-        Me.PictureBox2.TabIndex = 0
-        Me.PictureBox2.TabStop = False
-        '
         'backButton
         '
         Me.backButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text
@@ -610,6 +608,13 @@ Partial Class App
         Me.backButton.Name = "backButton"
         Me.backButton.Size = New System.Drawing.Size(47, 44)
         Me.backButton.Text = "Back"
+        '
+        'ToolStripStatusLabel4
+        '
+        Me.ToolStripStatusLabel4.BackColor = System.Drawing.Color.Transparent
+        Me.ToolStripStatusLabel4.Name = "ToolStripStatusLabel4"
+        Me.ToolStripStatusLabel4.Size = New System.Drawing.Size(715, 41)
+        Me.ToolStripStatusLabel4.Spring = True
         '
         'logoutButton
         '
@@ -623,17 +628,18 @@ Partial Class App
         Me.logoutButton.Size = New System.Drawing.Size(64, 44)
         Me.logoutButton.Text = "Logout"
         '
-        'wishlistButton
+        'contentPanel
         '
-        Me.wishlistButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text
-        Me.wishlistButton.DropDownButtonWidth = 0
-        Me.wishlistButton.Font = New System.Drawing.Font("Segoe UI", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.wishlistButton.ForeColor = System.Drawing.Color.FromArgb(CType(CType(64, Byte), Integer), CType(CType(64, Byte), Integer), CType(CType(64, Byte), Integer))
-        Me.wishlistButton.Image = CType(resources.GetObject("wishlistButton.Image"), System.Drawing.Image)
-        Me.wishlistButton.ImageTransparentColor = System.Drawing.Color.Magenta
-        Me.wishlistButton.Name = "wishlistButton"
-        Me.wishlistButton.Size = New System.Drawing.Size(100, 44)
-        Me.wishlistButton.Text = " My Wishlist"
+        Me.contentPanel.Controls.Add(Me.Details)
+        Me.contentPanel.Controls.Add(Me.Main)
+        Me.contentPanel.Controls.Add(Me.Listings)
+        Me.contentPanel.Controls.Add(Me.Wishlist)
+        Me.contentPanel.Controls.Add(Me.Welcome)
+        Me.contentPanel.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.contentPanel.Location = New System.Drawing.Point(0, 0)
+        Me.contentPanel.Name = "contentPanel"
+        Me.contentPanel.Size = New System.Drawing.Size(861, 793)
+        Me.contentPanel.TabIndex = 13
         '
         'App
         '
@@ -651,19 +657,19 @@ Partial Class App
         Me.Welcome.ResumeLayout(False)
         Me.Welcome.PerformLayout()
         Me.Main.ResumeLayout(False)
+        CType(Me.PictureBox2, System.ComponentModel.ISupportInitialize).EndInit()
         Me.BottomBar.ResumeLayout(False)
         Me.BottomBar.PerformLayout()
         Me.Listings.ResumeLayout(False)
         Me.Listings.PerformLayout()
         Me.Details.ResumeLayout(False)
         Me.Details.PerformLayout()
+        CType(Me.artworkBox, System.ComponentModel.ISupportInitialize).EndInit()
         Me.Wishlist.ResumeLayout(False)
         Me.Wishlist.PerformLayout()
         Me.TopBar.ResumeLayout(False)
         Me.TopBar.PerformLayout()
         Me.contentPanel.ResumeLayout(False)
-        CType(Me.artworkBox, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.PictureBox2, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
     End Sub
@@ -677,8 +683,8 @@ Partial Class App
     Friend WithEvents GuestButton As System.Windows.Forms.Button
     Friend WithEvents LoginButton As System.Windows.Forms.Button
     Friend WithEvents RegisterButton As System.Windows.Forms.Button
-    Friend WithEvents TextBox4 As System.Windows.Forms.TextBox
-    Friend WithEvents TextBox3 As System.Windows.Forms.TextBox
+    Friend WithEvents passwordTextbox As System.Windows.Forms.TextBox
+    Friend WithEvents usernameTextbox As System.Windows.Forms.TextBox
     Friend WithEvents Label1 As System.Windows.Forms.Label
     Friend WithEvents Main As System.Windows.Forms.Panel
     Friend WithEvents Label2 As System.Windows.Forms.Label
@@ -687,7 +693,7 @@ Partial Class App
     Friend WithEvents ArtistButton As System.Windows.Forms.Button
     Friend WithEvents GenreButton As System.Windows.Forms.Button
     Friend WithEvents BottomBar As System.Windows.Forms.StatusStrip
-    Friend WithEvents ToolStripStatusLabel2 As System.Windows.Forms.ToolStripStatusLabel
+    Friend WithEvents welcomeLabel As System.Windows.Forms.ToolStripStatusLabel
     Friend WithEvents ToolStripStatusLabel3 As System.Windows.Forms.ToolStripStatusLabel
     Friend WithEvents Listings As System.Windows.Forms.Panel
     Friend WithEvents listingLabel As System.Windows.Forms.Label
