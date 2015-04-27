@@ -35,12 +35,13 @@
 
     End Sub
 
-    Public Sub Remove(ByVal index As Integer)
-        If index > contents.Count - 1 Or index < 0 Then
-            Throw New IndexOutOfRangeException
-        Else
-            contents.RemoveAt(index)
-        End If
+    Public Sub Remove(ByVal key As Integer)
+        For i = 0 To contents.Count - 1
+            If contents(i).GetKey() = key Then
+                contents.RemoveAt(i)
+                Return
+            End If
+        Next
     End Sub
 
     Public Function All() As List(Of CDROM)

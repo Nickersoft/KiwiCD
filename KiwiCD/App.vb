@@ -11,13 +11,16 @@ Public Class App
     Dim selectFormat As String 'The string format for the selection button in the listing view
     Dim currentListing As Integer 'The category currently being listed
     Dim activeCD As CDROM = Nothing 'The CD that is currently being viewed
-    Dim panels As New List(Of Panel) 'Every panel the user has seen so far (used to traverse backwards through screens)
+    Dim backtrack As New List(Of Panel) 'Every panel the user has seen so far (used to traverse backwards through screens)
     Dim username As String = "Guest" 'The user's username. The default is the guest account.
+    Dim wishlistContents As New Library 'The user's wishlist
 #End Region
 
 #Region "Constant"
     Private Const listingFormat As String = "Showing All {0}" 'Format for the title of the listing view
     Private Const defaultSelectTag As String = "Click an item to select it" 'Default text for a disable selection button
+    Private Const addWishlistDefaultText As String = "Add to Wishlist" 'Default text for add to wishlist button
+    Private Const removeWishlistDefaultText As String = "Remove from Wishlist" 'Default text for remove from wishlist button
 
     'Categories
     Private Const GENRE As Integer = 0
@@ -57,9 +60,13 @@ Public Class App
         Next
     End Sub
 
+#End Region
+
+#Region "UI Controllers"
+
     'Logs the user in
     Private Sub Login(ByVal username As String, ByVal password As String)
-        If username.Trim().Count = 0 OrElse password.Trim().Count = 0 Then
+        If username.Trim().Length = 0 OrElse password.Trim().Length = 0 Then
             MessageBox.Show("Please enter a username and password to continue.", "Enter Your Credentials", MessageBoxButtons.OK, MessageBoxIcon.Asterisk)
         Else
             If username.Trim().ToLower() = My.Settings.username.Trim().ToLower() AndAlso _
@@ -68,6 +75,7 @@ Public Class App
                 ShowPane(Main)
                 TopBar.Visible = True
                 BottomBar.Visible = True
+                addWishlistButton.Visible = True
             Else
                 MessageBox.Show("Incorrect username or password. Either try again, register for an account, or continue as a guest.", "Login Failed", MessageBoxButtons.OK, MessageBoxIcon.Stop)
             End If
@@ -79,11 +87,8 @@ Public Class App
         ShowPane(Welcome)
         TopBar.Visible = False
         BottomBar.Visible = False
+        backtrack.Clear()
     End Sub
-
-#End Region
-
-#Region "UI Controllers"
 
     'Makes a specific screen (panel) the primary screen in the window
     Private Sub ShowPane(p As Panel)
@@ -95,8 +100,8 @@ Public Class App
         Next
         p.Dock = DockStyle.Fill
         p.Visible = True
-        panels.Add(p)
-        If panels.Count <= 2 Then
+        backtrack.Add(p)
+        If backtrack.Count <= 2 Then
             backButton.Enabled = False
         Else
             backButton.Enabled = True
@@ -190,7 +195,26 @@ Public Class App
         buyButton.Text = "Buy for $" & cd.GetPrice()
         buyButton.Tag = cd.GetPrice()
         activeCD = cd
+        ReloadWishlist()
         ShowPane(Details)
+    End Sub
+
+    'Reload the contents of the wishlist and set the wishlist button's text accordingly
+    Private Sub ReloadWishlist()
+        wishlistBox.Items.Clear()
+        For Each cd As CDROM In wishlistContents.All()
+            Dim item As New ListViewItem(cd.GetTitle())
+            item.SubItems.Add(cd.GetArtist())
+            item.SubItems.Add(cd.GetGenre())
+            item.Tag = cd.GetKey()
+            wishlistBox.Items.Add(item)
+        Next
+
+        If wishlistContents.All().Contains(activeCD) Then
+            addWishlistButton.Text = removeWishlistDefaultText
+        Else
+            addWishlistButton.Text = addWishlistDefaultText
+        End If
     End Sub
 
 #End Region
@@ -229,9 +253,9 @@ Public Class App
     End Sub
 
     Private Sub backButton_ButtonClick(sender As Object, e As EventArgs) Handles backButton.ButtonClick
-        If panels.Count > 2 Then
-            Dim lastPanel As Panel = panels(panels.Count - 2)
-            panels.RemoveRange(panels.Count - 2, 2)
+        If backtrack.Count > 2 Then
+            Dim lastPanel As Panel = backtrack(backtrack.Count - 2)
+            backtrack.RemoveRange(backtrack.Count - 2, 2)
             ShowPane(lastPanel)
         End If
     End Sub
@@ -259,8 +283,9 @@ Public Class App
 
     Private Sub GuestButton_Click(sender As Object, e As EventArgs) Handles GuestButton.Click
         ShowPane(Main)
-        BottomBar.Visible = True
+        BottomBar.Visible = False
         TopBar.Visible = True
+        addWishlistButton.Visible = False
     End Sub
 
     Private Sub usernameTextbox_KeyUp(sender As Object, e As KeyEventArgs) Handles usernameTextbox.KeyUp, passwordTextbox.KeyUp
@@ -386,7 +411,8 @@ Public Class App
     Private Sub wishlistBox_KeyDown(sender As Object, e As KeyEventArgs) Handles wishlistBox.KeyDown
         If (e.KeyCode = Keys.Delete) Then
             If wishlistBox.SelectedItems(0) IsNot Nothing Then
-                wishlistBox.Items.RemoveAt(wishlistBox.SelectedIndices(0))
+                wishlistContents.Remove(wishlistBox.SelectedItems(0).Tag.ToString())
+                ReloadWishlist()
                 If wishlistBox.Items.Count = 0 Then
                     wishlistSelectionButton.Tag = defaultSelectTag
                     wishlistSelectionButton.Enabled = False
@@ -419,14 +445,16 @@ Public Class App
     End Sub
 
     Private Sub addWishlistButton_Click(sender As Object, e As EventArgs) Handles addWishlistButton.Click
-        If activeCD IsNot Nothing Then
-            Dim item As New ListViewItem(activeCD.GetTitle())
-            item.SubItems.Add(activeCD.GetArtist())
-            item.SubItems.Add(activeCD.GetGenre())
-            item.Tag = activeCD.GetKey()
-            wishlistBox.Items.Add(item)
-            MessageBox.Show("Item added to wishlist! You can view your wishlist by clicking the text in the lower right hand corner of the screen.", "Added to Wishlist")
+        If Me.activeCD IsNot Nothing Then
+            If wishlistContents.All().Contains(activeCD) Then
+                wishlistContents.Remove(activeCD.GetKey())
+                ReloadWishlist()
+            Else
+                wishlistContents.Add(Me.activeCD)
+                ReloadWishlist()
+            End If
         End If
+
     End Sub
 
 #End Region
@@ -447,7 +475,7 @@ Public Class App
 
     Private Sub LeaveTextbox(sender As Object, e As EventArgs) Handles usernameTextbox.Leave, searchBox.Leave, passwordTextbox.Leave
         Dim txt As TextBox = CType(sender, TextBox)
-        If txt.Text.Trim().Count = 0 Then
+        If txt.Text.Trim().Length = 0 Then
             txt.ForeColor = Color.DarkGray
             txt.Text = txt.Tag.ToString()
             txt.UseSystemPasswordChar = False

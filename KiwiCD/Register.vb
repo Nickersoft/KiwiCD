@@ -7,7 +7,7 @@
         Dim cont As Boolean = True
         For Each c As Control In Me.Controls
             If TypeOf c Is TextBox Then
-                If c.Text.Trim().Count = 0 Then
+                If c.Text.Trim().Length = 0 Then
                     cont = False
                 End If
             End If
@@ -70,7 +70,7 @@
 
     Private Sub LeaveTextbox(sender As Object, e As EventArgs) Handles usernameTextbox.Leave, repasswordTextbox.Leave, passwordTextbox.Leave
         Dim txt As TextBox = CType(sender, TextBox)
-        If txt.Text.Trim().Count = 0 Then
+        If txt.Text.Trim().Length = 0 Then
             txt.Text = txt.Tag.ToString()
             txt.ForeColor = Color.DarkGray
             txt.UseSystemPasswordChar = False
