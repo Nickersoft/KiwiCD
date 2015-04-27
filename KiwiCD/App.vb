@@ -17,7 +17,7 @@ Public Class App
 #End Region
 
 #Region "Constant"
-    Private Const listingFormat As String = "Showing All {0}" 'Format for the title of the listing view
+    Private Const listingFormat As String = "Showing {1} {0}" 'Format for the title of the listing view
     Private Const defaultSelectTag As String = "Click an item to select it" 'Default text for a disable selection button
     Private Const addWishlistDefaultText As String = "Add to Wishlist" 'Default text for add to wishlist button
     Private Const removeWishlistDefaultText As String = "Remove from Wishlist" 'Default text for remove from wishlist button
@@ -84,10 +84,10 @@ Public Class App
 
     'Logs the user out
     Private Sub Logout()
-        ShowPane(Welcome)
         TopBar.Visible = False
         BottomBar.Visible = False
         backtrack.Clear()
+        ShowPane(Welcome)
     End Sub
 
     'Makes a specific screen (panel) the primary screen in the window
@@ -101,6 +101,7 @@ Public Class App
         p.Dock = DockStyle.Fill
         p.Visible = True
         backtrack.Add(p)
+        Console.Write(backtrack.Count())
         If backtrack.Count <= 2 Then
             backButton.Enabled = False
         Else
@@ -148,7 +149,7 @@ Public Class App
                 listingBox.Columns.RemoveByKey("genre")
         End Select
 
-        listingLabel.Text = String.Format(listingFormat, listingTitle)
+        listingLabel.Text = String.Format(listingFormat, listingTitle, listing.Count())
 
         For Each element As String In listing
             Dim item As New ListViewItem(element)
@@ -165,7 +166,7 @@ Public Class App
         listingBox.Items.Clear()
         listContents.Clear()
         ResetHeaders()
-        listingLabel.Text = String.Format(listingFormat, "Titles")
+        listingLabel.Text = String.Format(listingFormat, "Titles", listing.Count)
         selectFormat = "View {0}"
         selectionButton.Tag = defaultSelectTag
         selectionButton.Enabled = False
@@ -423,7 +424,7 @@ Public Class App
 
     Private Sub wishlistBox_SelectedIndexChanged(sender As Object, e As EventArgs) Handles wishlistBox.SelectedIndexChanged
         If wishlistBox.SelectedItems.Count > 0 Then
-            wishlistSelectionButton.Tag = String.Format(selectFormat, listingBox.SelectedItems(0).Text)
+            wishlistSelectionButton.Tag = String.Format(selectFormat, wishlistBox.SelectedItems(0).Text)
             wishlistSelectionButton.Enabled = True
         Else
             wishlistSelectionButton.Tag = defaultSelectTag
