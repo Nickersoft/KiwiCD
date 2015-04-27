@@ -160,6 +160,7 @@ Public Class App
         listingBox.Items.Clear()
         listContents.Clear()
         ResetHeaders()
+        listingLabel.Text = String.Format(listingFormat, "Titles")
         selectFormat = "View {0}"
         selectionButton.Tag = defaultSelectTag
         selectionButton.Enabled = False
@@ -289,26 +290,30 @@ Public Class App
 #Region "Listing & Wishlist"
 
     Private Sub searchBox_TextChanged(sender As Object, e As EventArgs) Handles searchBox.TextChanged
-        If searchBox.Text.Trim().Length = 0 Then
-            listingBox.Items.Clear()
-            listingBox.Items.AddRange(listContents.ToArray())
-        Else
-            Dim relevanceList As New List(Of ListViewItem)
-            For Each item As ListViewItem In listingBox.Items
-                Dim keyword As String = searchBox.Text.ToLower().Trim()
-                Dim title As String = item.Text.ToLower().Trim()
-                Dim condition As Boolean = title.Contains(keyword)
-                If (item.SubItems.Count > 1) Then
-                    Dim artist = item.SubItems(0).Text.ToLower().Trim()
-                    Dim genre = item.SubItems(1).Text.ToLower().Trim()
-                    condition = title.Contains(keyword) Or artist.Contains(keyword) Or genre.Contains(keyword)
+        If searchBox.ForeColor = Color.Black Then
+            If searchBox.Text.Trim().Length = 0 Then
+                If listContents.Count > 0 Then
+                    listingBox.Items.Clear()
+                    listingBox.Items.AddRange(listContents.ToArray())
                 End If
-                If condition Then
-                    relevanceList.Add(item)
-                End If
-            Next
-            listingBox.Items.Clear()
-            listingBox.Items.AddRange(relevanceList.ToArray())
+            Else
+                Dim relevanceList As New List(Of ListViewItem)
+                For Each item As ListViewItem In listingBox.Items
+                    Dim keyword As String = searchBox.Text.ToLower().Trim()
+                    Dim title As String = item.Text.ToLower().Trim()
+                    Dim condition As Boolean = title.Contains(keyword)
+                    If (item.SubItems.Count > 1) Then
+                        Dim artist = item.SubItems(0).Text.ToLower().Trim()
+                        Dim genre = item.SubItems(1).Text.ToLower().Trim()
+                        condition = title.Contains(keyword) Or artist.Contains(keyword) Or genre.Contains(keyword)
+                    End If
+                    If condition Then
+                        relevanceList.Add(item)
+                    End If
+                Next
+                listingBox.Items.Clear()
+                listingBox.Items.AddRange(relevanceList.ToArray())
+            End If
         End If
     End Sub
 
@@ -432,8 +437,8 @@ Public Class App
     Private Sub EnterTextbox(sender As Object, e As EventArgs) Handles usernameTextbox.Enter, searchBox.Enter, passwordTextbox.Enter
         Dim txt As TextBox = CType(sender, TextBox)
         If txt.ForeColor = Color.DarkGray Then
-            txt.Clear()
             txt.ForeColor = Color.Black
+            txt.Clear()
             If txt.Tag.ToString().ToLower().Trim().Contains("password") Then
                 txt.UseSystemPasswordChar = True
             End If
@@ -443,8 +448,8 @@ Public Class App
     Private Sub LeaveTextbox(sender As Object, e As EventArgs) Handles usernameTextbox.Leave, searchBox.Leave, passwordTextbox.Leave
         Dim txt As TextBox = CType(sender, TextBox)
         If txt.Text.Trim().Count = 0 Then
-            txt.Text = txt.Tag.ToString()
             txt.ForeColor = Color.DarkGray
+            txt.Text = txt.Tag.ToString()
             txt.UseSystemPasswordChar = False
         End If
     End Sub
