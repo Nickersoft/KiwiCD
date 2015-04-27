@@ -1,5 +1,8 @@
 ﻿Public Class Register
 
+#Region "Methods"
+
+    'Registers a user with the system 
     Private Sub Register()
         Dim cont As Boolean = True
         For Each c As Control In Me.Controls
@@ -23,9 +26,36 @@
         End If
     End Sub
 
+#End Region
+
+#Region "Event Listeners"
+
+#Region "Register"
+
     Private Sub RegisterButton_Click(sender As Object, e As EventArgs) Handles RegisterButton.Click
         Register()
     End Sub
+
+    Private Sub Register_Shown(sender As Object, e As EventArgs) Handles MyBase.Shown
+        For Each c As Control In Me.Controls
+            If TypeOf c Is TextBox Then
+                c.Text = c.Tag.ToString()
+                c.ForeColor = Color.DarkGray
+            End If
+        Next
+    End Sub
+
+    Private Sub repasswordTextbox_KeyUp(sender As Object, e As KeyEventArgs) Handles usernameTextbox.KeyUp, repasswordTextbox.KeyUp, passwordTextbox.KeyUp
+        If e.KeyCode = Keys.Enter Then
+            Register()
+        End If
+    End Sub
+
+#End Region
+
+#Region "Custom"
+
+#Region "Textbox Placeholders"
 
     Private Sub EnterTextbox(sender As Object, e As EventArgs) Handles usernameTextbox.Enter, repasswordTextbox.Enter, passwordTextbox.Enter
         Dim txt As TextBox = CType(sender, TextBox)
@@ -47,18 +77,10 @@
         End If
     End Sub
 
-    Private Sub Register_Shown(sender As Object, e As EventArgs) Handles MyBase.Shown
-        For Each c As Control In Me.Controls
-            If TypeOf c Is TextBox Then
-                c.Text = c.Tag.ToString()
-                c.ForeColor = Color.DarkGray
-            End If
-        Next
-    End Sub
+#End Region
 
-    Private Sub repasswordTextbox_KeyUp(sender As Object, e As KeyEventArgs) Handles usernameTextbox.KeyUp, repasswordTextbox.KeyUp, passwordTextbox.KeyUp
-        If e.KeyCode = Keys.Enter Then
-            Register()
-        End If
-    End Sub
+#End Region
+
+#End Region
+
 End Class

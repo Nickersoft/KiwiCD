@@ -3,22 +3,36 @@ Imports System.Windows.Forms.ListView
 
 Public Class App
 
-    Dim library As New Library()
-    Dim listContents As New List(Of ListViewItem)
-    Dim selectFormat As String
-    Dim currentListing As Integer
-    Dim activeCD As CDROM = Nothing
-    Dim panels As New List(Of Panel)
-    Dim username As String = "Guest"
+#Region "Variable Declarations"
 
-    Private Const listingFormat As String = "Showing All {0}"
-    Private Const defaultSelectTag As String = "Click an item to select it"
+#Region "Local"
+    Dim library As New Library() 'The CD database
+    Dim listContents As New List(Of ListViewItem) 'Content that is currently being listed
+    Dim selectFormat As String 'The string format for the selection button in the listing view
+    Dim currentListing As Integer 'The category currently being listed
+    Dim activeCD As CDROM = Nothing 'The CD that is currently being viewed
+    Dim panels As New List(Of Panel) 'Every panel the user has seen so far (used to traverse backwards through screens)
+    Dim username As String = "Guest" 'The user's username. The default is the guest account.
+#End Region
 
+#Region "Constant"
+    Private Const listingFormat As String = "Showing All {0}" 'Format for the title of the listing view
+    Private Const defaultSelectTag As String = "Click an item to select it" 'Default text for a disable selection button
+
+    'Categories
     Private Const GENRE As Integer = 0
     Private Const ARTIST As Integer = 1
     Private Const TITLE As Integer = 2
+#End Region
 
-    Private Sub loadXML()
+#End Region
+
+#Region "Methods"
+
+#Region "Generic"
+
+    'Loads CD library from XML file
+    Private Sub LoadXML()
         Dim xml_doc As XmlDocument
         Dim xml_nodes As XmlNodeList
 
@@ -43,12 +57,36 @@ Public Class App
         Next
     End Sub
 
-    Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        loadXML()
-        Me.Size = New Size(800, 600)
+    'Logs the user in
+    Private Sub Login(ByVal username As String, ByVal password As String)
+        If username.Trim().Count = 0 OrElse password.Trim().Count = 0 Then
+            MessageBox.Show("Please enter a username and password to continue.", "Enter Your Credentials", MessageBoxButtons.OK, MessageBoxIcon.Asterisk)
+        Else
+            If username.Trim().ToLower() = My.Settings.username.Trim().ToLower() AndAlso _
+               password = My.Settings.password Then
+                Me.username = My.Settings.username
+                ShowPane(Main)
+                TopBar.Visible = True
+                BottomBar.Visible = True
+            Else
+                MessageBox.Show("Incorrect username or password. Either try again, register for an account, or continue as a guest.", "Login Failed", MessageBoxButtons.OK, MessageBoxIcon.Stop)
+            End If
+        End If
     End Sub
 
-    Private Sub showPane(p As Panel)
+    'Logs the user out
+    Private Sub Logout()
+        ShowPane(Welcome)
+        TopBar.Visible = False
+        BottomBar.Visible = False
+    End Sub
+
+#End Region
+
+#Region "UI Controllers"
+
+    'Makes a specific screen (panel) the primary screen in the window
+    Private Sub ShowPane(p As Panel)
         welcomeLabel.Text = "Welcome back, " & username
         For Each c As Control In Me.contentPanel.Controls
             If TypeOf c Is Panel Then
@@ -65,7 +103,8 @@ Public Class App
         End If
     End Sub
 
-    Private Sub resetHeaders()
+    'Resets the headers in the listings browser (listingBox) to its default
+    Private Sub ResetHeaders()
         listingBox.Columns.Clear()
         wishlistBox.Columns.Clear()
 
@@ -78,66 +117,11 @@ Public Class App
         wishlistBox.Columns.Insert(2, "genre", "Genre", 200)
     End Sub
 
-    Private Sub Form1_Shown(sender As Object, e As EventArgs) Handles MyBase.Shown
-        For Each p As Control In contentPanel.Controls
-            If TypeOf p Is Panel Then
-                For Each c As Control In p.Controls
-                    If TypeOf c Is TextBox Then
-                        c.Text = c.Tag.ToString()
-                        c.ForeColor = Color.DarkGray
-                    End If
-                Next
-            End If
-        Next
-        BottomBar.Hide()
-        showPane(Welcome)
-    End Sub
-
-    Private Sub GuestButton_Click(sender As Object, e As EventArgs) Handles GuestButton.Click
-        showPane(Main)
-        BottomBar.Visible = True
-        TopBar.Visible = True
-    End Sub
-
-    Private Sub ShowAlbumDetails(ByVal cd As CDROM)
-        Listings.Hide()
-        titleLabel.Text = cd.GetTitle()
-        artistLabel.Text = cd.GetArtist()
-        genreLabel.Text = cd.GetGenre()
-        stockLabel.Text = cd.GetCount()
-        artworkBox.Image = cd.GetArtwork()
-        buyButton.Text = "Buy for $" & cd.GetPrice()
-        buyButton.Tag = cd.GetPrice()
-        activeCD = cd
-        showPane(Details)
-    End Sub
-
-    Private Sub ShowAlbums(ByVal listing As List(Of CDROM))
-        listingBox.Items.Clear()
-        listContents.Clear()
-        resetHeaders()
-        selectFormat = "View {0}"
-        selectionButton.Tag = defaultSelectTag
-        selectionButton.Enabled = False
-        selectionButton.Refresh()
-        For Each cd As CDROM In listing
-            Dim item As New ListViewItem(cd.GetTitle())
-            item.SubItems.Add(cd.GetArtist())
-            item.SubItems.Add(cd.GetGenre())
-            item.Tag = cd.GetKey()
-            listingBox.Items.Add(item)
-            listContents.Add(item)
-        Next
-        currentListing = TITLE
-        If Listings.Visible = False Then
-            showPane(Listings)
-        End If
-    End Sub
-
+    'Show a list of genres or artists
     Private Sub ShowCategory(ByVal category As Integer)
         listingBox.Items.Clear()
         listContents.Clear()
-        resetHeaders()
+        ResetHeaders()
         selectionButton.Tag = defaultSelectTag
         selectionButton.Enabled = False
         selectionButton.Refresh()
@@ -168,26 +152,143 @@ Public Class App
         Next
 
         currentListing = category
-        showPane(Listings)
+        ShowPane(Listings)
     End Sub
+
+    'Show a list of all titles released under a given category
+    Private Sub ShowAlbums(ByVal listing As List(Of CDROM))
+        listingBox.Items.Clear()
+        listContents.Clear()
+        ResetHeaders()
+        selectFormat = "View {0}"
+        selectionButton.Tag = defaultSelectTag
+        selectionButton.Enabled = False
+        selectionButton.Refresh()
+        For Each cd As CDROM In listing
+            Dim item As New ListViewItem(cd.GetTitle())
+            item.SubItems.Add(cd.GetArtist())
+            item.SubItems.Add(cd.GetGenre())
+            item.Tag = cd.GetKey()
+            listingBox.Items.Add(item)
+            listContents.Add(item)
+        Next
+        currentListing = TITLE
+        If Listings.Visible = False Then
+            ShowPane(Listings)
+        End If
+    End Sub
+
+    'Show the details of a given CD-ROM
+    Private Sub ShowAlbumDetails(ByVal cd As CDROM)
+        Listings.Hide()
+        titleLabel.Text = cd.GetTitle()
+        artistLabel.Text = cd.GetArtist()
+        genreLabel.Text = cd.GetGenre()
+        stockLabel.Text = cd.GetCount()
+        artworkBox.Image = cd.GetArtwork()
+        buyButton.Text = "Buy for $" & cd.GetPrice()
+        buyButton.Tag = cd.GetPrice()
+        activeCD = cd
+        ShowPane(Details)
+    End Sub
+
+#End Region
+
+#End Region
+
+#Region "Event Listeners"
+
+#Region "Window"
+
+    Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        LoadXML()
+        Me.Size = New Size(800, 600)
+    End Sub
+
+    Private Sub Form1_Shown(sender As Object, e As EventArgs) Handles MyBase.Shown
+        For Each p As Control In contentPanel.Controls
+            If TypeOf p Is Panel Then
+                For Each c As Control In p.Controls
+                    If TypeOf c Is TextBox Then
+                        c.Text = c.Tag.ToString()
+                        c.ForeColor = Color.DarkGray
+                    End If
+                Next
+            End If
+        Next
+        BottomBar.Hide()
+        ShowPane(Welcome)
+    End Sub
+#End Region
+
+#Region "TopBar"
+
+    Private Sub logoutButton_Click(sender As Object, e As EventArgs) Handles logoutButton.Click
+        Logout()
+    End Sub
+
+    Private Sub backButton_ButtonClick(sender As Object, e As EventArgs) Handles backButton.ButtonClick
+        If panels.Count > 2 Then
+            Dim lastPanel As Panel = panels(panels.Count - 2)
+            panels.RemoveRange(panels.Count - 2, 2)
+            ShowPane(lastPanel)
+        End If
+    End Sub
+
+#End Region
+
+#Region "BottomBar"
+
+    Private Sub wishlistButton_Click(sender As Object, e As EventArgs) Handles wishlistButton.Click
+        ShowPane(Wishlist)
+    End Sub
+
+#End Region
+
+#Region "Login Screen"
+
+    Private Sub RegisterButton_Click(sender As Object, e As EventArgs) Handles RegisterButton.Click
+        Dim r As New Register()
+        r.ShowDialog()
+    End Sub
+
+    Private Sub LoginButton_Click(sender As Object, e As EventArgs) Handles LoginButton.Click
+        Login(usernameTextbox.Text, passwordTextbox.Text)
+    End Sub
+
+    Private Sub GuestButton_Click(sender As Object, e As EventArgs) Handles GuestButton.Click
+        ShowPane(Main)
+        BottomBar.Visible = True
+        TopBar.Visible = True
+    End Sub
+
+    Private Sub usernameTextbox_KeyUp(sender As Object, e As KeyEventArgs) Handles usernameTextbox.KeyUp, passwordTextbox.KeyUp
+        If e.KeyCode = Keys.Enter Then
+            Login(usernameTextbox.Text, passwordTextbox.Text)
+        End If
+    End Sub
+
+#End Region
+
+#Region "Welcome"
 
     Private Sub GenreButton_Click(sender As Object, e As EventArgs) Handles GenreButton.Click
         ShowCategory(GENRE)
     End Sub
 
-    Private Sub listingBox_SelectedIndexChanged(sender As Object, e As EventArgs) Handles listingBox.SelectedIndexChanged
-        If listingBox.SelectedItems.Count > 0 Then
-            selectionButton.Tag = String.Format(selectFormat, listingBox.SelectedItems(0).Text)
-            selectionButton.Enabled = True
-        Else
-            selectionButton.Tag = defaultSelectTag
-            selectionButton.Enabled = False
-        End If
-
-        selectionButton.Refresh()
+    Private Sub ArtistButton_Click(sender As Object, e As EventArgs) Handles ArtistButton.Click
+        ShowCategory(ARTIST)
     End Sub
 
-    Private Sub searchBox_TextChanged(sender As Object, e As EventArgs)
+    Private Sub TitleButton_Click(sender As Object, e As EventArgs) Handles TitleButton.Click
+        ShowAlbums(library.All())
+    End Sub
+
+#End Region
+
+#Region "Listing & Wishlist"
+
+    Private Sub searchBox_TextChanged(sender As Object, e As EventArgs) Handles searchBox.TextChanged
         If searchBox.Text.Trim().Length = 0 Then
             listingBox.Items.Clear()
             listingBox.Items.AddRange(listContents.ToArray())
@@ -208,6 +309,41 @@ Public Class App
             Next
             listingBox.Items.Clear()
             listingBox.Items.AddRange(relevanceList.ToArray())
+        End If
+    End Sub
+
+    Private Sub listingBox_SelectedIndexChanged(sender As Object, e As EventArgs) Handles listingBox.SelectedIndexChanged
+        If listingBox.SelectedItems.Count > 0 Then
+            selectionButton.Tag = String.Format(selectFormat, listingBox.SelectedItems(0).Text)
+            selectionButton.Enabled = True
+        Else
+            selectionButton.Tag = defaultSelectTag
+            selectionButton.Enabled = False
+        End If
+
+        selectionButton.Refresh()
+    End Sub
+
+    Private Sub selectionButton_Click(sender As Object, e As EventArgs) Handles selectionButton.Click
+        If listingBox.SelectedItems.Count > 0 Then
+            Dim newListing As New Library
+            Dim selectedCD = False
+            Select Case currentListing
+                Case GENRE
+                    newListing = library.GetByGenre(listingBox.SelectedItems(0).Text)
+                Case ARTIST
+                    newListing = library.GetByArtist(listingBox.SelectedItems(0).Text)
+                Case TITLE
+                    selectedCD = True
+            End Select
+
+            If Not selectedCD Then
+                ShowAlbums(newListing.All())
+            Else
+                Dim key = listingBox.SelectedItems(0).Tag.ToString()
+                Dim cd As CDROM = library.GetCD(key)
+                ShowAlbumDetails(cd)
+            End If
         End If
     End Sub
 
@@ -236,71 +372,6 @@ Public Class App
         End If
     End Sub
 
-    Private Sub ArtistButton_Click(sender As Object, e As EventArgs) Handles ArtistButton.Click
-        ShowCategory(ARTIST)
-    End Sub
-
-    Private Sub selectionButton_Click(sender As Object, e As EventArgs) Handles selectionButton.Click
-        If listingBox.SelectedItems.Count > 0 Then
-            Dim newListing As New Library
-            Dim selectedCD = False
-            Select Case currentListing
-                Case GENRE
-                    newListing = library.GetByGenre(listingBox.SelectedItems(0).Text)
-                Case ARTIST
-                    newListing = library.GetByArtist(listingBox.SelectedItems(0).Text)
-                Case TITLE
-                    selectedCD = True
-            End Select
-
-            If Not selectedCD Then
-                ShowAlbums(newListing.All())
-            Else
-                Dim key = listingBox.SelectedItems(0).Tag.ToString()
-                Dim cd As CDROM = library.GetCD(key)
-                ShowAlbumDetails(cd)
-            End If
-        End If
-    End Sub
-
-    Private Sub TitleButton_Click(sender As Object, e As EventArgs) Handles TitleButton.Click
-        ShowAlbums(library.All())
-    End Sub
-
-    Private Sub BuyButton_Click(sender As Object, e As EventArgs) Handles buyButton.Click
-        Dim result As DialogResult
-        result = MessageBox.Show(String.Format("Are you sure you would like to reserve {0} for purchase? ", titleLabel.Text), "Are You Sure?", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
-        If result = vbYes Then
-            MessageBox.Show(String.Format("You have just requested {0} for purchase. Your total will be ${1}." & vbCrLf & vbCrLf & "Please see the front desk to pay.", titleLabel.Text, buyButton.Tag.ToString()), "Purchase Confirmed", MessageBoxButtons.OK, MessageBoxIcon.None)
-        End If
-    End Sub
-
-    Private Sub addWishlistButton_Click(sender As Object, e As EventArgs) Handles addWishlistButton.Click
-        If activeCD IsNot Nothing Then
-            Dim item As New ListViewItem(activeCD.GetTitle())
-            item.SubItems.Add(activeCD.GetArtist())
-            item.SubItems.Add(activeCD.GetGenre())
-            item.Tag = activeCD.GetKey()
-            wishlistBox.Items.Add(item)
-            MessageBox.Show("Item added to wishlist! You can view your wishlist by clicking the text in the lower right hand corner of the screen.", "Added to Wishlist")
-        End If
-    End Sub
-
-    Private Sub wishlistButton_Click(sender As Object, e As EventArgs) Handles wishlistButton.Click
-        showPane(Wishlist)
-    End Sub
-
-    Private Sub wishlistBox_SelectedIndexChanged(sender As Object, e As EventArgs) Handles wishlistBox.SelectedIndexChanged
-        If wishlistBox.SelectedItems.Count > 0 Then
-            wishlistSelectionButton.Tag = String.Format(selectFormat, listingBox.SelectedItems(0).Text)
-            wishlistSelectionButton.Enabled = True
-        Else
-            wishlistSelectionButton.Tag = defaultSelectTag
-            wishlistSelectionButton.Enabled = False
-        End If
-        wishlistSelectionButton.Refresh()
-    End Sub
-
     Private Sub wishlistSelectionButton_Click(sender As Object, e As EventArgs) Handles wishlistSelectionButton.Click
         If wishlistBox.SelectedItems.Count > 0 Then
             ShowAlbumDetails(library.GetCD(wishlistBox.SelectedItems(0).Tag.ToString()))
@@ -319,45 +390,45 @@ Public Class App
         End If
     End Sub
 
-    Private Sub logoutButton_Click(sender As Object, e As EventArgs) Handles logoutButton.Click
-        showPane(Welcome)
-        TopBar.Visible = False
-        BottomBar.Visible = False
-    End Sub
-
-    Private Sub backButton_ButtonClick(sender As Object, e As EventArgs) Handles backButton.ButtonClick
-        If panels.Count > 2 Then
-            Dim lastPanel As Panel = panels(panels.Count - 2)
-            panels.RemoveRange(panels.Count - 2, 2)
-            showPane(lastPanel)
-            End If
-    End Sub
-
-    Private Sub RegisterButton_Click(sender As Object, e As EventArgs) Handles RegisterButton.Click
-        Dim r As New Register()
-        r.ShowDialog()
-    End Sub
-
-    Private Sub Login()
-        If usernameTextbox.Text.Trim().Count = 0 OrElse passwordTextbox.Text.Trim().Count = 0 Then
-            MessageBox.Show("Please enter a username and password to continue.", "Enter Your Credentials", MessageBoxButtons.OK, MessageBoxIcon.Asterisk)
+    Private Sub wishlistBox_SelectedIndexChanged(sender As Object, e As EventArgs) Handles wishlistBox.SelectedIndexChanged
+        If wishlistBox.SelectedItems.Count > 0 Then
+            wishlistSelectionButton.Tag = String.Format(selectFormat, listingBox.SelectedItems(0).Text)
+            wishlistSelectionButton.Enabled = True
         Else
-            If usernameTextbox.Text.Trim().ToLower() = My.Settings.username.Trim().ToLower() AndAlso _
-               passwordTextbox.Text = My.Settings.password Then
-                username = My.Settings.username
-                showPane(Main)
-                TopBar.Visible = True
-                BottomBar.Visible = True
-            Else
-                MessageBox.Show("Incorrect username or password. Either try again, register for an account, or continue as a guest.", "Login Failed", MessageBoxButtons.OK, MessageBoxIcon.Stop)
-            End If
+            wishlistSelectionButton.Tag = defaultSelectTag
+            wishlistSelectionButton.Enabled = False
+        End If
+        wishlistSelectionButton.Refresh()
+    End Sub
+
+#End Region
+
+#Region "Details"
+
+    Private Sub buyButton_Click(sender As Object, e As EventArgs) Handles buyButton.Click
+        Dim result As DialogResult
+        result = MessageBox.Show(String.Format("Are you sure you would like to reserve {0} for purchase? ", titleLabel.Text), "Are You Sure?", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
+        If result = vbYes Then
+            MessageBox.Show(String.Format("You have just requested {0} for purchase. Your total will be ${1}." & vbCrLf & vbCrLf & "Please see the front desk to pay.", titleLabel.Text, buyButton.Tag.ToString()), "Purchase Confirmed", MessageBoxButtons.OK, MessageBoxIcon.None)
         End If
     End Sub
 
-    Private Sub LoginButton_Click(sender As Object, e As EventArgs) Handles LoginButton.Click
-        Login()
+    Private Sub addWishlistButton_Click(sender As Object, e As EventArgs) Handles addWishlistButton.Click
+        If activeCD IsNot Nothing Then
+            Dim item As New ListViewItem(activeCD.GetTitle())
+            item.SubItems.Add(activeCD.GetArtist())
+            item.SubItems.Add(activeCD.GetGenre())
+            item.Tag = activeCD.GetKey()
+            wishlistBox.Items.Add(item)
+            MessageBox.Show("Item added to wishlist! You can view your wishlist by clicking the text in the lower right hand corner of the screen.", "Added to Wishlist")
+        End If
     End Sub
 
+#End Region
+
+#Region "Custom"
+
+#Region "Textbox Placeholders"
     Private Sub EnterTextbox(sender As Object, e As EventArgs) Handles usernameTextbox.Enter, searchBox.Enter, passwordTextbox.Enter
         Dim txt As TextBox = CType(sender, TextBox)
         If txt.ForeColor = Color.DarkGray Then
@@ -377,10 +448,10 @@ Public Class App
             txt.UseSystemPasswordChar = False
         End If
     End Sub
+#End Region
 
-    Private Sub usernameTextbox_KeyUp(sender As Object, e As KeyEventArgs) Handles usernameTextbox.KeyUp, passwordTextbox.KeyUp
-        If e.KeyCode = Keys.Enter Then
-            Login()
-        End If
-    End Sub
+#End Region
+
+#End Region
+
 End Class
